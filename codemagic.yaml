@@ -1,0 +1,66 @@
+workflows:
+  ios-test:
+    name: Langlois Electric - iOS Test Build
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+
+    scripts:
+      - name: Create iOS app wrapper
+        script: |
+          set -e
+          rm -rf ios www package.json package-lock.json capacitor.config.json
+          mkdir -p www
+          cp index.html www/index.html
+
+          npm init -y
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/ios@7
+
+          npx cap init "Langlois Electric Crew" "com.langloiselectric.crew" --web-dir www
+          npx cap add ios
+          npx cap sync ios
+
+      - name: Build iOS simulator app
+        script: |
+          set -e
+          xcodebuild \
+            -project ios/App/App.xcodeproj \
+            -scheme App \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath build/ios \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+    artifacts:
+      - build/ios/Build/Products/Debug-iphonesimulator/*.app
+      - /tmp/xcodebuild_logs/*.log
+
+  android-test:
+    name: Langlois Electric - Android Test Build
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+
+    scripts:
+      - name: Create Android app wrapper
+        script: |
+          set -e
+          rm -rf android www package.json package-lock.json capacitor.config.json
+          mkdir -p www
+          cp index.html www/index.html
+
+          npm init -y
+          npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+
+          npx cap init "Langlois Electric Crew" "com.langloiselectric.crew" --web-dir www
+          npx cap add android
+          npx cap sync android
+
+      - name: Build Android test APK
+        script: |
+          set -e
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+    artifacts:
+      - android/app/build/outputs/apk/debug/*.apk
