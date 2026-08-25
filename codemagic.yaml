@@ -1,11 +1,15 @@
 workflows:
-  ios-test:
-    name: Langlois Electric - iOS Test Build
+  ios-testflight:
+    name: Langlois Electric - iOS TestFlight Build
     instance_type: mac_mini_m2
     max_build_duration: 60
+
     environment:
       xcode: latest
       cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.langloiselectric.crew
 
     scripts:
       - name: Create iOS app wrapper
@@ -30,21 +34,20 @@ workflows:
           cd ios/App
           pod install
 
-      - name: Build iOS simulator app
+      - name: Set up iOS code signing
         script: |
           set -e
-          xcodebuild build \
-            -workspace ios/App/App.xcworkspace \
-            -scheme App \
-            -sdk iphonesimulator \
-            -configuration Debug \
-            -derivedDataPath build/ios \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+          xcode-project use-profiles
+
+      - name: Build signed IPA
+        script: |
+          set -e
+          xcode-project build-ipa \
+            --workspace ios/App/App.xcworkspace \
+            --scheme App
 
     artifacts:
-      - build/ios/Build/Products/Debug-iphonesimulator/*.app
+      - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
 
   android-test:
