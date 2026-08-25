@@ -1,0 +1,1776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2b1d">
+<title>Langlois Electric Crew</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--green:#0b2b1d;--green2:#12462f;--lime:#a8cf45;--bg:#f3f6f3;--card:#fff;--text:#152018;--muted:#68736b;--line:#d9e0da;--red:#b42318;--amber:#b7791f;--blue:#175cd3}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit} button{cursor:pointer}.hidden{display:none!important}
+.topbar{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--green),#081f15);color:#fff;padding:13px 14px;border-bottom:2px solid var(--lime);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand strong{display:block;font-size:1.05rem;letter-spacing:.02em}.brand small{color:#d8e9c4}.top-actions{display:flex;gap:8px;align-items:center}
+.btn{border:0;border-radius:10px;padding:11px 13px;font-weight:800;min-height:44px}.btn-primary{background:var(--lime);color:#102313}.btn-dark{background:var(--green2);color:#fff}.btn-light{background:#fff;color:var(--green);border:1px solid var(--line)}.btn-danger{background:var(--red);color:#fff}.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
+.wrap{max-width:1100px;margin:auto;padding:16px}
+.auth-card{max-width:520px;margin:26px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,.07)}
+.auth-card h1{margin:0 0 6px;color:var(--green)}.auth-card p{color:var(--muted);margin:0 0 18px}
+.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:.85rem;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid #bcc8bf;border-radius:10px;padding:12px;background:#fff;min-height:44px}.field textarea{min-height:95px;resize:vertical}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}.auth-tabs button{border:1px solid var(--line);background:#f7faf7;border-radius:9px;padding:10px;font-weight:800}.auth-tabs button.active{background:var(--green);color:#fff}
+.notice{padding:11px 12px;border-radius:10px;background:#eef7e8;color:#27471e;margin:10px 0;font-size:.9rem}.error{background:#fff0ee;color:#8a1c13}
+.dashboard-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:6px 0 14px}.dashboard-head h2{margin:0}.dashboard-head p{margin:2px 0 0;color:var(--muted)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px}.metric strong{display:block;font-size:1.55rem;color:var(--green)}.metric span{font-size:.78rem;color:var(--muted);font-weight:700}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.toolbar input,.toolbar select{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;min-height:44px}.toolbar input{flex:1;min-width:210px}
+.jobs{display:grid;gap:10px}.job{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:1fr auto;gap:12px}.job h3{margin:0 0 4px}.job .meta{color:var(--muted);font-size:.86rem;line-height:1.4}.status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.03em}.s-not-started{background:#edf0f2;color:#4a5560}.s-in-progress{background:#e8f1ff;color:#175cd3}.s-waiting{background:#fff5d9;color:#8c5f00}.s-completed{background:#e7f7ec;color:#17713b}.job-actions{display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap;justify-content:flex-end}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}.panel h3{margin:0 0 12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.list{display:grid;gap:8px}.list-row{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fbfcfb}.list-row small{color:var(--muted)}
+.bottom-nav{display:none}.empty{padding:24px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #bdc8bf;border-radius:14px}
+.modalback{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:18px;overflow:auto}.modal{width:min(720px,100%);background:#fff;border-radius:18px;padding:18px;margin-top:20px}.modalhead{display:flex;justify-content:space-between;gap:10px;align-items:center}.modalhead h2{margin:0}.x{border:0;background:#eef1ee;border-radius:50%;width:40px;height:40px;font-size:20px}
+.section-title{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:16px}.section-title h3{margin:0}
+.codebox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:1.3rem;font-weight:900;letter-spacing:.08em;background:#101a13;color:#dff2b8;border-radius:10px;padding:14px;text-align:center;word-break:break-all}
+
+.customer-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:14px;align-items:start}
+.customer-sidebar{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;position:sticky;top:78px;max-height:calc(100vh - 96px);overflow:auto}
+.customer-sidebar h3{margin:0 0 9px;color:var(--green);font-size:1rem}
+.customer-search{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;margin-bottom:9px;min-height:42px}
+.customer-list{display:grid;gap:6px}
+.customer-group{border:1px solid var(--line);border-radius:9px;background:#fbfcfb;overflow:hidden}
+.customer-group summary{list-style:none;cursor:pointer;padding:10px 9px;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:7px}
+.customer-group summary::-webkit-details-marker{display:none}
+.customer-group summary::after{content:"▾";color:var(--green2);font-size:.85rem}
+.customer-group:not([open]) summary::after{content:"▸"}
+.customer-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.customer-count{flex:0 0 auto;background:#eaf3df;color:#31511d;border-radius:999px;padding:2px 7px;font-size:.7rem;font-weight:900}
+.customer-jobs{border-top:1px solid var(--line);padding:5px}
+.customer-job-btn{width:100%;border:0;background:transparent;text-align:left;padding:8px;border-radius:7px;font-size:.8rem;line-height:1.2;color:var(--text);cursor:pointer}
+.customer-job-btn small{display:block;color:var(--muted);margin-top:2px}
+.customer-job-btn:hover{background:#edf5e7}
+.customer-none{padding:12px 5px;color:var(--muted);font-size:.82rem;text-align:center}
+.jobboard-main{min-width:0}
+@media(max-width:820px){
+  .customer-layout{grid-template-columns:1fr}
+  .customer-sidebar{position:static;top:auto;max-height:none}
+}
+
+@media(max-width:720px){
+  .wrap{padding:12px 10px 78px}.metrics{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.job{grid-template-columns:1fr}.job-actions{justify-content:flex-start}
+  .topbar{padding-top:max(10px,env(safe-area-inset-top))}.top-actions .desktop-only{display:none}
+  .bottom-nav{display:grid;position:fixed;bottom:0;left:0;right:0;z-index:30;grid-template-columns:repeat(4,1fr);background:#071b12;border-top:1px solid #31543f;padding-bottom:env(safe-area-inset-bottom)}
+  .bottom-nav button{border:0;background:transparent;color:#fff;padding:9px 3px;font-size:.7rem;font-weight:800;min-height:56px}.bottom-nav button span{display:block;font-size:1.1rem;margin-bottom:2px}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><strong>LANGLOIS ELECTRIC & CO</strong><small>Employee Operations</small></div>
+  <div class="top-actions">
+    <button id="inviteTopBtn" class="btn btn-primary desktop-only hidden">Invite Employee</button>
+    <button id="employeesTopBtn" class="btn btn-light desktop-only hidden">Employees</button>
+    <button id="logoutBtn" class="btn btn-ghost hidden">Sign Out</button>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="authView" class="auth-card">
+  <h1>Crew App</h1>
+  <p>Sign in to see live jobs, notes, assignments and materials.</p>
+  <div class="auth-tabs">
+    <button id="tabSignin" class="active" type="button">Sign In</button>
+    <button id="tabSignup" type="button">Create Account</button>
+  </div>
+  <form id="authForm">
+    <div id="nameField" class="field hidden"><label>Full name</label><input id="fullName" autocomplete="name"></div>
+    <div class="field"><label>Email</label><input id="email" type="email" autocomplete="email" required></div>
+    <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" minlength="8" required></div>
+    <div id="inviteField" class="field hidden"><label>Employee invite code (leave blank if you are the owner setting up the app)</label><input id="inviteCode" maxlength="30" autocomplete="off"></div>
+    <button id="authSubmit" class="btn btn-primary" style="width:100%">Sign In</button>
+    <button id="forgotPasswordBtn" type="button" class="btn btn-light" style="width:100%;margin-top:8px">Forgot Password?</button>
+  </form>
+  <div id="authMessage"></div>
+</section>
+
+<section id="setupView" class="auth-card hidden">
+  <h1>Finish Account Setup</h1>
+  <p id="setupCopy">Your login works. Now connect this account to Langlois Electric.</p>
+  <div class="field"><label>Your full name</label><input id="setupName" autocomplete="name"></div>
+  <div id="setupInviteWrap" class="field"><label>Employee invite code</label><input id="setupInvite" autocomplete="off"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button id="joinEmployeeBtn" class="btn btn-primary">Join as Employee</button>
+    <button id="claimOwnerBtn" class="btn btn-dark">I Am the Owner</button>
+  </div>
+  <div id="setupMessage"></div>
+</section>
+
+<section id="resetView" class="auth-card hidden">
+  <h1>Set New Password</h1>
+  <p>Enter a new password for your Crew App account.</p>
+  <form id="resetPasswordForm">
+    <div class="field"><label>New password</label><input id="newPassword" type="password" minlength="8" autocomplete="new-password" required></div>
+    <div class="field"><label>Confirm new password</label><input id="confirmNewPassword" type="password" minlength="8" autocomplete="new-password" required></div>
+    <button class="btn btn-primary" style="width:100%">Save New Password</button>
+  </form>
+  <div id="resetMessage"></div>
+</section>
+
+<section id="appView" class="hidden">
+  <div class="customer-layout">
+    <aside id="customerSidebar" class="customer-sidebar">
+      <h3>Customers</h3>
+      <input id="customerSearch" class="customer-search" type="search" placeholder="Search customers..." autocomplete="off">
+      <div id="customerList" class="customer-list"></div>
+    </aside>
+    <div class="jobboard-main">
+
+  <div class="dashboard-head">
+    <div><h2>Job Board</h2><p id="welcomeText"></p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="newJobBtn" class="btn btn-primary">+ New Job</button>
+      <button id="deleteJobTopBtn" type="button" class="btn btn-danger hidden">Delete Job</button>
+      <button id="completedJobsBtn" type="button" class="btn btn-light hidden">Completed Jobs</button>
+      <button id="exportJobExcelBtn" type="button" class="btn btn-light hidden">Export Job Excel</button>
+      <button id="exportJobPicsBtn" type="button" class="btn btn-light hidden">Export Job Pics</button>
+    </div>
+  </div>
+  <div class="metrics">
+    <div class="metric"><strong id="mActive">0</strong><span>ACTIVE JOBS</span></div>
+    <div class="metric"><strong id="mProgress">0</strong><span>IN PROGRESS</span></div>
+    <div class="metric"><strong id="mWaiting">0</strong><span>WAITING</span></div>
+    <div class="metric"><strong id="mComplete">0</strong><span>COMPLETED</span></div>
+  </div>
+  <div class="toolbar">
+    <input id="jobSearch" placeholder="Search job, customer or address">
+    <select id="statusFilter"><option value="all">All active statuses</option><option value="not_started">Not Started</option><option value="in_progress">In Progress</option><option value="waiting">Waiting</option></select>
+    <button id="inviteBtn" class="btn btn-light hidden">Invite Employee</button>
+  </div>
+  <div id="jobsList" class="jobs"></div>
+
+    </div>
+  </div>
+</section>
+</main>
+
+<nav id="bottomNav" class="bottom-nav hidden">
+  <button data-nav="jobs"><span>▦</span>JOBS</button>
+  <button id="bottomNew"><span>＋</span>NEW JOB</button>
+  <button id="bottomInvite"><span>👥</span>INVITE</button>
+  <button id="bottomRefresh"><span>↻</span>REFRESH</button>
+</nav>
+
+<div id="jobModal" class="modalback hidden">
+  <div class="modal">
+    <div class="modalhead"><h2 id="jobModalTitle">Job</h2><button class="x" id="closeJobModal">×</button></div>
+
+    <button id="toggleUpperJobSectionBtn" type="button" class="btn btn-light" style="width:100%;margin-bottom:10px">
+      Collapse Job Details & Documents ▲
+    </button>
+
+    <div id="upperJobSection">
+      <form id="jobForm">
+        <div id="jobOwnerOnlyNotice" class="notice hidden">Job details are read-only for employees. Only the Owner can edit this section.</div>
+        <input id="jobId" type="hidden">
+
+        <div class="split">
+          <div class="field"><label>Job #</label><input id="jobNumber"></div>
+          <div class="field"><label>Status</label><select id="jobStatus"><option value="not_started">Not Started</option><option value="in_progress">In Progress</option><option value="waiting">Waiting</option><option value="complete">Completed</option></select></div>
+        </div>
+
+        <div class="field"><label>Job name</label><input id="jobName" required></div>
+        <div class="field"><label>Customer</label><input id="jobCustomer"></div>
+        <div class="field"><label>Address</label><input id="jobAddress"></div>
+
+        <div id="jobAutoSaveStatus" class="notice" style="margin-top:10px;text-align:center">
+          Job details save automatically.
+        </div>
+      </form>
+
+      <div id="jobDetailsExtras" class="hidden">
+        <div id="documentOwnerControls">
+
+          <div class="field" style="margin-top:12px">
+            <div style="display:grid;grid-template-columns:minmax(190px,auto) 1fr;gap:10px;align-items:center">
+              <label for="generatorActivationCode" style="margin:0;font-weight:700">Generator Activation Code</label>
+              <input id="generatorActivationCode" type="text" inputmode="text" autocomplete="off" placeholder="Enter activation code">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;align-items:end">
+            <div class="field" style="margin:0;min-width:0">
+              <label>Power Company</label>
+              <input id="jobPowerCompany" type="text" placeholder="Power company">
+            </div>
+            <div class="field" style="margin:0;min-width:0">
+              <label>Account Number #1</label>
+              <input id="jobPowerCompanyAccount" type="text" placeholder="Account #1">
+            </div>
+            <div class="field" style="margin:0;min-width:0">
+              <label>Account Number #2</label>
+              <input id="jobPowerCompanyAccount2" type="text" placeholder="Account #2">
+            </div>
+          </div>
+
+        </div>
+
+        <details id="jobPicturesDetails" style="margin-top:16px">
+          <summary id="jobPicturesSummary" style="cursor:pointer;list-style:none;background:#16a34a;color:white;font-weight:800;padding:8px 10px 8px 12px;border-radius:8px;display:flex;align-items:center;gap:10px">
+            <span id="jobPicturesSummaryText" style="flex:1;min-width:0">Job Pictures (0)</span>
+            <button id="chooseJobPictureFilesBtn" type="button" class="btn btn-light" style="margin:0;min-height:34px;padding:5px 10px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
+              Choose Files
+            </button>
+            <input id="jobPictureFiles" type="file" accept="image/*,.heic,.heif" multiple style="display:none">
+            <span aria-hidden="true" style="flex-shrink:0">▼</span>
+          </summary>
+
+          <div style="padding-top:10px">
+            <div id="jobPicturesMessage" class="notice" style="margin-top:8px;text-align:center">Choose one or more pictures.</div>
+            <div id="jobPicturesList" class="list" style="margin-top:10px"></div>
+          </div>
+        </details>
+
+        <details id="jobDocumentsDetails" style="margin-top:16px">
+          <summary id="jobDocumentsSummary" style="cursor:pointer;list-style:none;background:#16a34a;color:white;font-weight:800;padding:8px 10px 8px 12px;border-radius:8px;display:flex;align-items:center;gap:10px">
+            <span id="jobDocumentsSummaryText" style="flex:1;min-width:0">Job Documents (0)</span>
+            <button id="chooseJobPermitFileBtn" type="button" class="btn btn-light" style="margin:0;min-height:34px;padding:5px 10px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
+              Choose Files
+            </button>
+            <input id="jobPermitFile" type="file" multiple style="display:none">
+            <span aria-hidden="true" style="flex-shrink:0">▼</span>
+          </summary>
+
+          <div style="padding-top:10px">
+            <div id="jobDocumentsList" class="list" style="margin-top:10px"></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div id="dailyWorkSection">
+      <details id="dailyWorkEntryDetails" style="margin-top:16px">
+        <summary style="cursor:pointer;list-style:none;background:#16a34a;color:white;font-weight:800;padding:10px 12px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span>Daily Work Log</span>
+          <span aria-hidden="true">▼</span>
+        </summary>
+
+        <div style="padding-top:10px">
+          <div class="split">
+            <div class="field"><label>Date</label><input id="dailyWorkDate" type="date"></div>
+            <div class="field"><label>Labor hours</label><input id="dailyLaborHours" type="number" min="0" max="24" step="0.25" placeholder="8"></div>
+          </div>
+
+          <div class="field"><label>Materials used</label><textarea id="dailyMaterialsUsed" placeholder="Example: 120 ft 3/4 EMT, 8 couplings, 4 boxes"></textarea></div>
+          <div class="field"><label>Work note</label><textarea id="dailyWorkNote" placeholder="Example: Installed conduit in warehouse and pulled branch circuit conductors."></textarea></div>
+
+          <button id="saveDailyWorkLogBtn" type="button" class="btn btn-primary" style="width:100%">Save Daily Work Log</button>
+        </div>
+      </details>
+
+      <div id="dailyWorkLogsList" class="list" style="margin-top:10px"></div>
+    </div>
+
+    <div id="jobModalMessage"></div>
+  </div>
+</div>
+
+<div id="exportJobExcelModal" class="modalback hidden">
+  <div class="modal" style="max-width:560px">
+    <div class="modalhead"><h2>Export Job to Excel</h2><button class="x" id="closeExportJobExcelModal">×</button></div>
+    <p style="color:var(--muted)">Choose a job to export. The Excel file will include job details and all Daily Work Logs.</p>
+    <div class="field">
+      <label>Job</label>
+      <select id="exportJobSelect"></select>
+    </div>
+    <button id="confirmExportJobExcelBtn" type="button" class="btn btn-primary" style="width:100%">Export Selected Job</button>
+    <div id="exportJobExcelMessage"></div>
+  </div>
+
+<div id="exportJobPicsModal" class="modalback hidden">
+  <div class="modal" style="max-width:560px">
+    <div class="modalhead"><h2>Export Job Pictures</h2><button class="x" id="closeExportJobPicsModal">×</button></div>
+    <p style="color:var(--muted)">Choose a job. All pictures from that job will be downloaded together in one ZIP file.</p>
+    <div class="field">
+      <label>Job</label>
+      <select id="exportJobPicsSelect"></select>
+    </div>
+    <button id="confirmExportJobPicsBtn" type="button" class="btn btn-primary" style="width:100%">Export Selected Job Pictures</button>
+    <div id="exportJobPicsMessage"></div>
+  </div>
+</div>
+</div>
+
+<div id="completedJobsModal" class="modalback hidden">
+  <div class="modal" style="max-width:760px">
+    <div class="modalhead"><h2>Completed Jobs</h2><button class="x" id="closeCompletedJobsModal">×</button></div>
+    <div class="field">
+      <label>Search completed jobs</label>
+      <input id="completedJobSearch" type="search" placeholder="Search job #, customer, job name or address">
+    </div>
+    <div id="completedJobsList" class="jobs"></div>
+  </div>
+</div>
+
+<div id="deleteJobModal" class="modalback hidden">
+  <div class="modal" style="max-width:520px">
+    <div class="modalhead"><h2>Delete Job</h2><button class="x" id="closeDeleteJobModal">×</button></div>
+    <p style="color:var(--muted)">Choose the job you want to permanently delete.</p>
+    <div class="field">
+      <label>Job</label>
+      <select id="deleteJobSelect"></select>
+    </div>
+    <button id="confirmDeleteJobBtn" type="button" class="btn btn-danger" style="width:100%">Delete Selected Job</button>
+    <div id="deleteJobMessage"></div>
+  </div>
+</div>
+
+<div id="inviteModal" class="modalback hidden">
+  <div class="modal" style="max-width:520px">
+    <div class="modalhead"><h2>Invite Employee</h2><button class="x" id="closeInviteModal">×</button></div>
+    <p style="color:var(--muted)">Generate a one-time code. Give the code to your employee after they create their login.</p>
+    <div class="field"><label>Access level</label><select id="inviteRole"><option value="employee">Employee</option><option value="admin">Admin / Foreman</option></select></div>
+    <button id="generateInviteBtn" class="btn btn-primary" style="width:100%">Generate Invite Code</button>
+    <div id="inviteResult" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<div id="employeesModal" class="modalback hidden">
+  <div class="modal" style="max-width:760px">
+    <div class="modalhead"><h2>Employees</h2><button class="x" id="closeEmployeesModal">×</button></div>
+    <p style="color:var(--muted)">Manage employees connected to Langlois Electric & Co.</p>
+    <div id="employeesList" class="list"></div>
+    <div id="employeesMessage" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL='https://okuhueiciqwatnjxyqfl.supabase.co';
+const SUPABASE_KEY='sb_publishable_QNa8QPdJfD-01hBcfAxWhQ_i3Kkx7Je';
+const APP_URL='https://homeruncards.net/app/';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let session=null, profile=null, company=null, jobs=[], activeJobId=null, realtimeChannel=null, authMode='signin';
+let customerSearchText='';
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const msg=(el,text,bad=false)=>{el.innerHTML=text?`<div class="notice ${bad?'error':''}">${esc(text)}</div>`:''};
+const statusClass=s=>'s-'+String(s||'not_started').toLowerCase().replace(/_/g,'-');
+function todayLocalDate(){
+  const d=new Date();
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+const statusLabel=s=>({not_started:'Not Started',in_progress:'In Progress',waiting:'Waiting',complete:'Completed',needed:'Needed',ordered:'Ordered',received:'Received',installed:'Installed'}[String(s||'')]||String(s||''));
+
+function setAuthMode(mode){
+  authMode=mode;
+  $('tabSignin').classList.toggle('active',mode==='signin');
+  $('tabSignup').classList.toggle('active',mode==='signup');
+  $('nameField').classList.toggle('hidden',mode!=='signup');
+  $('inviteField').classList.toggle('hidden',mode!=='signup');
+  $('authSubmit').textContent=mode==='signin'?'Sign In':'Create Account';
+  $('password').autocomplete=mode==='signin'?'current-password':'new-password';
+  msg($('authMessage'),'');
+}
+$('tabSignin').onclick=()=>setAuthMode('signin');
+$('tabSignup').onclick=()=>setAuthMode('signup');
+
+$('authForm').addEventListener('submit',async e=>{
+  e.preventDefault(); msg($('authMessage'),'');
+  const email=$('email').value.trim(), password=$('password').value, fullName=$('fullName').value.trim(), invite=$('inviteCode').value.trim();
+  try{
+    if(authMode==='signin'){
+      const {error}=await sb.auth.signInWithPassword({email,password}); if(error) throw error;
+    }else{
+      const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:APP_URL}}); if(error) throw error;
+      if(data.session){
+        if(fullName) sessionStorage.setItem('pendingName',fullName);
+        if(invite) sessionStorage.setItem('pendingInvite',invite);
+        await routeSession(data.session);
+      }else{
+        msg($('authMessage'),'Account created. Check your email for the confirmation link, then come back and sign in.');
+      }
+    }
+  }catch(err){msg($('authMessage'),err.message||String(err),true)}
+});
+
+async function routeSession(s){
+  session=s;
+  if(!s){
+    profile=null; show('auth'); return;
+  }
+  const {data,error}=await sb.from('profiles').select('*').eq('id',s.user.id).maybeSingle();
+  if(error){console.error(error)}
+  profile=data||null;
+  if(!profile){
+    $('setupName').value=sessionStorage.getItem('pendingName')||'';
+    $('setupInvite').value=sessionStorage.getItem('pendingInvite')||'';
+    show('setup'); return;
+  }
+  if(!profile.active){msg($('setupMessage'),'Your account is inactive. Contact the owner.',true);show('setup');return}
+  const c=await sb.from('companies').select('*').eq('id',profile.company_id).maybeSingle();
+  company=c.data||null;
+  show('app');
+  await loadJobs();
+  subscribeRealtime();
+}
+
+function show(which){
+  $('authView').classList.toggle('hidden',which!=='auth');
+  $('setupView').classList.toggle('hidden',which!=='setup');
+  $('appView').classList.toggle('hidden',which!=='app');
+  $('resetView').classList.toggle('hidden',which!=='reset');
+  $('logoutBtn').classList.toggle('hidden',which==='auth'||which==='reset');
+  $('bottomNav').classList.toggle('hidden',which!=='app');
+  if(which==='app'){
+    const canAdmin=['owner','admin'].includes(profile?.role);
+    const isOwner=profile?.role==='owner';
+    $('inviteBtn').classList.toggle('hidden',!canAdmin);
+    $('inviteTopBtn').classList.toggle('hidden',!canAdmin);
+    if($('employeesTopBtn')) $('employeesTopBtn').classList.toggle('hidden',!isOwner);
+    $('bottomInvite').disabled=!canAdmin;
+    $('bottomInvite').style.opacity=canAdmin?'1':'.35';
+    $('newJobBtn').classList.toggle('hidden',!isOwner);
+    if($('deleteJobTopBtn')) $('deleteJobTopBtn').classList.toggle('hidden',!isOwner);
+    if($('completedJobsBtn')) $('completedJobsBtn').classList.toggle('hidden',!isOwner);
+    if($('exportJobExcelBtn')) $('exportJobExcelBtn').classList.toggle('hidden',!isOwner);
+    if($('exportJobPicsBtn')) $('exportJobPicsBtn').classList.toggle('hidden',!isOwner);
+    $('bottomNew').disabled=!isOwner;
+    $('bottomNew').style.opacity=isOwner?'1':'.35';
+    $('welcomeText').textContent=`${profile.full_name||'User'} • ${profile.role.toUpperCase()} • Live Sync`;
+  }
+}
+
+$('forgotPasswordBtn').onclick=async()=>{
+  const email=$('email').value.trim();
+  if(!email) return msg($('authMessage'),'Enter your email address first.',true);
+  msg($('authMessage'),'Sending password reset email...');
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:APP_URL+'?password-reset=1'});
+  if(error) return msg($('authMessage'),error.message,true);
+  msg($('authMessage'),'Password reset email sent. Open the email and tap the reset link.');
+};
+
+$('resetPasswordForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const a=$('newPassword').value, b=$('confirmNewPassword').value;
+  if(a.length<8) return msg($('resetMessage'),'Password must be at least 8 characters.',true);
+  if(a!==b) return msg($('resetMessage'),'The passwords do not match.',true);
+  const {error}=await sb.auth.updateUser({password:a});
+  if(error) return msg($('resetMessage'),error.message,true);
+  msg($('resetMessage'),'Password changed successfully. Opening the app...');
+  history.replaceState({},document.title,APP_URL);
+  setTimeout(async()=>{const {data}=await sb.auth.getSession();await routeSession(data.session)},500);
+});
+
+$('logoutBtn').onclick=async()=>{await sb.auth.signOut(); if(realtimeChannel) sb.removeChannel(realtimeChannel);location.reload()};
+
+$('claimOwnerBtn').onclick=async()=>{
+  msg($('setupMessage'),'');
+  const name=$('setupName').value.trim(); if(!name)return msg($('setupMessage'),'Enter your name first.',true);
+  const {data,error}=await sb.rpc('claim_company_owner',{p_full_name:name});
+  if(error)return msg($('setupMessage'),error.message,true);
+  sessionStorage.removeItem('pendingName');sessionStorage.removeItem('pendingInvite');
+  await routeSession(session);
+};
+$('joinEmployeeBtn').onclick=async()=>{
+  msg($('setupMessage'),'');
+  const name=$('setupName').value.trim(), code=$('setupInvite').value.trim();
+  if(!name||!code)return msg($('setupMessage'),'Enter your name and invite code.',true);
+  const {error}=await sb.rpc('accept_employee_invite',{p_code:code,p_full_name:name});
+  if(error)return msg($('setupMessage'),error.message,true);
+  sessionStorage.removeItem('pendingName');sessionStorage.removeItem('pendingInvite');
+  await routeSession(session);
+};
+
+async function loadJobs(){
+  const {data,error}=await sb.from('jobs').select('*').order('updated_at',{ascending:false});
+  if(error){console.error(error);return}
+  jobs=data||[]; renderJobs();
+}
+
+function normalizedCustomerName(j){
+  const name=String(j?.customer||'').trim();
+  return name || 'Unassigned Customer';
+}
+
+function renderCustomerSidebar(){
+  const box=$('customerList');
+  if(!box)return;
+  const query=String(customerSearchText||'').trim().toLowerCase();
+
+  const groups=new Map();
+  jobs.filter(j=>j.status!=='complete').forEach(j=>{
+    const customer=normalizedCustomerName(j);
+    if(!groups.has(customer))groups.set(customer,[]);
+    groups.get(customer).push(j);
+  });
+
+  const customers=[...groups.entries()]
+    .filter(([name])=>!query || name.toLowerCase().includes(query))
+    .sort((a,b)=>a[0].localeCompare(b[0],undefined,{sensitivity:'base'}));
+
+  if(!customers.length){
+    box.innerHTML='<div class="customer-none">No customers match your search.</div>';
+    return;
+  }
+
+  box.innerHTML=customers.map(([customer,customerJobs])=>{
+    const ordered=[...customerJobs].sort((a,b)=>
+      String(a.job_number||'').localeCompare(String(b.job_number||''),undefined,{numeric:true,sensitivity:'base'}) ||
+      String(a.name||'').localeCompare(String(b.name||''),undefined,{sensitivity:'base'})
+    );
+    return `<details class="customer-group">
+      <summary>
+        <span class="customer-name">${esc(customer)}</span>
+        <span class="customer-count">${ordered.length}</span>
+      </summary>
+      <div class="customer-jobs">
+        ${ordered.map(j=>`<button type="button" class="customer-job-btn" data-customer-job="${j.id}">
+          ${esc(j.job_number?j.job_number+' — ':'')}${esc(j.name||'Job')}
+          <small>${esc(statusLabel(j.status))}</small>
+        </button>`).join('')}
+      </div>
+    </details>`;
+  }).join('');
+
+  box.querySelectorAll('[data-customer-job]').forEach(btn=>{
+    btn.addEventListener('click',()=>openJob(btn.dataset.customerJob));
+  });
+}
+
+function renderJobs(){
+  renderCustomerSidebar();
+  const q=$('jobSearch').value.trim().toLowerCase(), sf=$('statusFilter').value;
+  const filtered=jobs.filter(j=>{
+    if(j.status==='complete') return false;
+    const hay=[j.job_number,j.name,j.customer,j.address,j.power_company,j.power_company_account_number,j.power_company_account_number_2].join(' ').toLowerCase();
+    return hay.includes(q)&&(sf==='all'||j.status===sf);
+  });
+
+  filtered.sort((a,b)=>
+    String(a.job_number||'').localeCompare(
+      String(b.job_number||''),
+      undefined,
+      {numeric:true,sensitivity:'base'}
+    )
+  );
+  const count=s=>jobs.filter(j=>j.status===s).length;
+  $('mActive').textContent=jobs.filter(j=>j.status!=='complete').length;
+  $('mProgress').textContent=count('in_progress');$('mWaiting').textContent=count('waiting');$('mComplete').textContent=count('complete');
+  $('jobsList').innerHTML=filtered.length?filtered.map(j=>`
+    <article class="job">
+      <div>
+        <h3>${esc(j.job_number?j.job_number+' — ':'')}${esc(j.name)}</h3>
+        <div class="meta">${esc(j.customer||'No customer')}${j.address?' • '+esc(j.address):''}</div>
+        <div class="meta">${j.start_date?'Start '+esc(j.start_date):''}${j.due_date?' • Due '+esc(j.due_date):''}</div>
+      </div>
+      <div class="job-actions">
+        <span class="status ${statusClass(j.status)}">${esc(statusLabel(j.status))}</span>
+        <button class="btn btn-light" data-open-job="${j.id}">Open</button>
+      </div>
+    </article>`).join(''):'<div class="empty">No jobs match this view.</div>';
+  document.querySelectorAll('[data-open-job]').forEach(b=>b.onclick=()=>openJob(b.dataset.openJob));
+}
+$('jobSearch').oninput=renderJobs;$('statusFilter').onchange=renderJobs;
+if($('customerSearch')) $('customerSearch').oninput=e=>{customerSearchText=e.target.value||'';renderCustomerSidebar();};
+
+
+function applyJobDetailPermissions(){
+  const isOwner=profile?.role==='owner';
+  ['jobNumber','jobStatus','jobName','jobCustomer','jobAddress','jobPowerCompany','jobPowerCompanyAccount','jobPowerCompanyAccount2','generatorActivationCode'].forEach(id=>{
+    const el=$(id);
+    if(!el)return;
+    el.disabled=!isOwner;
+  });
+  if($('saveJobBtn')) $('saveJobBtn').classList.toggle('hidden',!isOwner);
+  if($('documentOwnerControls')) $('documentOwnerControls').classList.toggle('hidden',!isOwner);
+  if($('savePowerCompanyBtn')) $('savePowerCompanyBtn').classList.toggle('hidden',!isOwner);
+  if($('deleteJobPermitBtn')) $('deleteJobPermitBtn').classList.toggle('hidden',!isOwner);
+  if($('clearPowerCompanyBtn')) $('clearPowerCompanyBtn').classList.toggle('hidden',!isOwner);
+  if($('jobOwnerOnlyNotice')) $('jobOwnerOnlyNotice').classList.toggle('hidden',isOwner);
+}
+
+function getNextJobNumber(){
+  const numbered=(jobs||[])
+    .map(j=>String(j.job_number||'').trim())
+    .map(value=>{
+      const m=value.match(/^(.*?)(\d+)\s*$/);
+      return m?{value,prefix:m[1],number:parseInt(m[2],10),width:m[2].length}:null;
+    })
+    .filter(Boolean)
+    .filter(x=>Number.isFinite(x.number));
+
+  if(!numbered.length)return '1';
+  numbered.sort((a,b)=>b.number-a.number);
+  const last=numbered[0];
+  return `${last.prefix}${String(last.number+1).padStart(last.width,'0')}`;
+}
+
+function resetJobForm(){
+  loadingJobIntoForm=true;
+  applySavedCollapsePreference();
+  
+  
+  activeJobId=null; $('jobId').value='';$('jobNumber').value=getNextJobNumber();$('jobName').value='';$('jobCustomer').value='';$('jobAddress').value='';$('jobStatus').value='not_started';$('jobDetailsExtras').classList.add('hidden');$('jobModalTitle').textContent='New Job';if($('jobPowerCompany'))$('jobPowerCompany').value='';if($('jobPowerCompanyAccount'))$('jobPowerCompanyAccount').value='';if($('generatorActivationCode'))$('generatorActivationCode').value='';
+  $('jobPowerCompanyAccount2').value='';if($('jobPowerCompanyAccount2'))$('jobPowerCompanyAccount2').value='';if($('dailyWorkDate'))$('dailyWorkDate').value=todayLocalDate();if($('dailyLaborHours'))$('dailyLaborHours').value='';if($('dailyMaterialsUsed'))$('dailyMaterialsUsed').value='';if($('dailyWorkNote'))$('dailyWorkNote').value='';msg($('jobModalMessage'),'');
+  setJobAutoSaveStatus('Job details save automatically.');
+  loadingJobIntoForm=false;
+}
+$('newJobBtn').onclick=()=>{if(profile?.role!=='owner')return;resetJobForm();applyJobDetailPermissions();$('jobModal').classList.remove('hidden')};$('bottomNew').onclick=$('newJobBtn').onclick;
+$('closeJobModal').onclick=()=>$('jobModal').classList.add('hidden');
+
+async function openJob(id){
+  const j=jobs.find(x=>x.id===id); if(!j)return;
+  loadingJobIntoForm=true;
+  activeJobId=id;$('jobId').value=id;$('jobNumber').value=j.job_number||'';$('jobName').value=j.name||'';$('jobCustomer').value=j.customer||'';$('jobAddress').value=j.address||'';$('jobPowerCompany').value=j.power_company||'';$('jobPowerCompanyAccount').value=j.power_company_account_number||'';$('jobPowerCompanyAccount2').value=j.power_company_account_number_2||'';if($('generatorActivationCode'))$('generatorActivationCode').value=j.generator_activation_code||'';$('jobStatus').value=j.status||'not_started';$('jobModalTitle').textContent=j.name||'Job';applySavedCollapsePreference();$('jobDetailsExtras').classList.remove('hidden');applyJobDetailPermissions();if($('dailyWorkDate')&&!$('dailyWorkDate').value)$('dailyWorkDate').value=todayLocalDate();$('jobModal').classList.remove('hidden');msg($('jobModalMessage'),'');
+  setJobAutoSaveStatus('Saved automatically.');
+  if($('jobPicturesDetails'))$('jobPicturesDetails').open=false;
+  if($('jobDocumentsDetails'))$('jobDocumentsDetails').open=false;
+  if($('dailyWorkEntryDetails'))$('dailyWorkEntryDetails').open=false;
+  loadingJobIntoForm=false;
+  await loadJobExtras();
+}
+
+
+
+
+
+function populateExportJobSelect(){
+  const sel=$('exportJobSelect');
+  if(!sel)return;
+  const sorted=[...jobs].sort((a,b)=>
+    String(a.job_number||'').localeCompare(String(b.job_number||''),undefined,{numeric:true,sensitivity:'base'}) ||
+    String(a.customer||'').localeCompare(String(b.customer||''),undefined,{sensitivity:'base'}) ||
+    String(a.name||'').localeCompare(String(b.name||''),undefined,{sensitivity:'base'})
+  );
+  sel.innerHTML=sorted.length
+    ? sorted.map(j=>`<option value="${j.id}">${esc(j.job_number?j.job_number+' — ':'')}${esc(j.name||'Job')} — ${esc(j.customer||'No Customer')}${j.status==='complete'?' (Completed)':''}</option>`).join('')
+    : '<option value="">No jobs available</option>';
+}
+
+function excelSafeText(v){
+  return v===null||v===undefined?'':String(v);
+}
+
+function excelDateTime(v){
+  if(!v)return '';
+  try{return new Date(v).toLocaleString();}catch{return excelSafeText(v);}
+}
+
+
+function populateExportJobPicsSelect(){
+  const sel=$('exportJobPicsSelect');
+  if(!sel)return;
+  const sorted=[...jobs].sort((a,b)=>
+    String(a.job_number||'').localeCompare(String(b.job_number||''),undefined,{numeric:true,sensitivity:'base'}) ||
+    String(a.customer||'').localeCompare(String(b.customer||''),undefined,{sensitivity:'base'}) ||
+    String(a.name||'').localeCompare(String(b.name||''),undefined,{sensitivity:'base'})
+  );
+  sel.innerHTML=sorted.length
+    ? sorted.map(j=>`<option value="${j.id}">${esc(j.job_number?j.job_number+' — ':'')}${esc(j.name||'Job')} — ${esc(j.customer||'No Customer')}${j.status==='complete'?' (Completed)':''}</option>`).join('')
+    : '<option value="">No jobs available</option>';
+}
+
+if($('exportJobPicsBtn')){
+  $('exportJobPicsBtn').onclick=()=>{
+    if(profile?.role!=='owner')return;
+    populateExportJobPicsSelect();
+    msg($('exportJobPicsMessage'),'');
+    $('exportJobPicsModal').classList.remove('hidden');
+  };
+}
+
+if($('closeExportJobPicsModal')){
+  $('closeExportJobPicsModal').onclick=()=>$('exportJobPicsModal').classList.add('hidden');
+}
+
+if($('confirmExportJobPicsBtn')){
+  $('confirmExportJobPicsBtn').onclick=async()=>{
+    if(profile?.role!=='owner')return;
+
+    const btn=$('confirmExportJobPicsBtn');
+    const jobId=$('exportJobPicsSelect').value;
+    if(!jobId)return msg($('exportJobPicsMessage'),'Choose a job first.',true);
+    if(!window.JSZip)return msg($('exportJobPicsMessage'),'Picture export library did not load. Refresh the page and try again.',true);
+
+    const job=jobs.find(j=>j.id===jobId);
+    if(!job)return msg($('exportJobPicsMessage'),'Job not found.',true);
+
+    btn.disabled=true;
+    btn.textContent='Preparing Pictures...';
+
+    try{
+      const {data:pictures,error:picturesError}=await sb.from('job_pictures')
+        .select('*')
+        .eq('job_id',jobId)
+        .order('created_at',{ascending:true});
+
+      if(picturesError)throw picturesError;
+      if(!pictures?.length){
+        return msg($('exportJobPicsMessage'),'This job does not have any pictures to export.',true);
+      }
+
+      const zip=new JSZip();
+      const folder=zip.folder('Job Pictures');
+      const usedNames=new Map();
+
+      for(let i=0;i<pictures.length;i++){
+        const pic=pictures[i];
+        msg($('exportJobPicsMessage'),`Adding picture ${i+1} of ${pictures.length}...`);
+
+        const {data:blob,error:downloadError}=await sb.storage
+          .from('job-documents')
+          .download(pic.storage_path);
+
+        if(downloadError)throw downloadError;
+
+        let fileName=safeStorageFileName(pic.file_name||`job_picture_${i+1}.jpg`);
+        const dot=fileName.lastIndexOf('.');
+        const base=dot>0?fileName.slice(0,dot):fileName;
+        const ext=dot>0?fileName.slice(dot):'';
+        const seen=usedNames.get(fileName)||0;
+        usedNames.set(fileName,seen+1);
+        if(seen>0)fileName=`${base}_${seen+1}${ext}`;
+
+        folder.file(fileName,blob);
+      }
+
+      msg($('exportJobPicsMessage'),'Building ZIP file...');
+      const zipBlob=await zip.generateAsync(
+        {type:'blob',compression:'DEFLATE',compressionOptions:{level:4}},
+        metadata=>{
+          if(metadata.percent){
+            msg($('exportJobPicsMessage'),`Building ZIP file... ${Math.round(metadata.percent)}%`);
+          }
+        }
+      );
+
+      const cleanJob=(job.job_number||job.name||'job').toString().replace(/[^a-zA-Z0-9_-]+/g,'_');
+      const url=URL.createObjectURL(zipBlob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download=`Langlois_Electric_Job_${cleanJob}_Pictures.zip`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+
+      msg($('exportJobPicsMessage'),`Exported ${pictures.length} picture${pictures.length===1?'':'s'} in one ZIP file.`);
+    }catch(err){
+      msg($('exportJobPicsMessage'),err?.message||String(err),true);
+    }finally{
+      btn.disabled=false;
+      btn.textContent='Export Selected Job Pictures';
+    }
+  };
+}
+
+$('exportJobExcelBtn').onclick=()=>{
+  if(profile?.role!=='owner')return;
+  populateExportJobSelect();
+  msg($('exportJobExcelMessage'),'');
+  $('exportJobExcelModal').classList.remove('hidden');
+};
+
+$('closeExportJobExcelModal').onclick=()=>$('exportJobExcelModal').classList.add('hidden');
+
+$('confirmExportJobExcelBtn').onclick=async()=>{
+  if(profile?.role!=='owner')return;
+  const jobId=$('exportJobSelect').value;
+  if(!jobId)return msg($('exportJobExcelMessage'),'Choose a job first.',true);
+  if(!window.XLSX)return msg($('exportJobExcelMessage'),'Excel export library did not load. Refresh the page and try again.',true);
+
+  const job=jobs.find(j=>j.id===jobId);
+  if(!job)return msg($('exportJobExcelMessage'),'Job not found.',true);
+
+  msg($('exportJobExcelMessage'),'Building Excel file...');
+
+  const [logsRes,docsRes]=await Promise.all([
+    sb.from('daily_work_logs')
+      .select('*')
+      .eq('job_id',jobId)
+      .order('work_date',{ascending:true})
+      .order('created_at',{ascending:true}),
+    sb.from('job_documents')
+      .select('*')
+      .eq('job_id',jobId)
+      .order('created_at',{ascending:true})
+  ]);
+
+  if(logsRes.error)return msg($('exportJobExcelMessage'),logsRes.error.message,true);
+  if(docsRes.error)return msg($('exportJobExcelMessage'),docsRes.error.message,true);
+
+  const wb=XLSX.utils.book_new();
+
+  let exportProfileNames={};
+  const exportUserIds=[...new Set((logsRes.data||[]).map(x=>x.user_id).filter(Boolean))];
+  if(exportUserIds.length){
+    const exportProfilesRes=await sb.from('profiles')
+      .select('id,full_name')
+      .in('id',exportUserIds);
+    if(!exportProfilesRes.error){
+      exportProfileNames=Object.fromEntries(
+        (exportProfilesRes.data||[]).map(p=>[p.id,p.full_name||'Employee'])
+      );
+    }
+  }
+
+  const logRows=(logsRes.data||[]).map(x=>({
+    'Date':excelSafeText(x.work_date),
+    'Employee':excelSafeText(exportProfileNames[x.user_id]||'Employee'),
+    'Labor Hours':Number(x.labor_hours||0),
+    'Materials Used':excelSafeText(x.materials_used),
+    'Work Note':excelSafeText(x.work_note),
+    'Entered At':excelDateTime(x.created_at)
+  }));
+
+  const summaryRows=[
+    ['Langlois Electric & Co — Job Export',''],
+    ['Job Number',excelSafeText(job.job_number)],
+    ['Job Name',excelSafeText(job.name)],
+    ['Customer',excelSafeText(job.customer)],
+    ['Address',excelSafeText(job.address)],
+    ['Status',statusLabel(job.status)],
+    ['Power Company',excelSafeText(job.power_company)],
+    ['Account Number #1',excelSafeText(job.power_company_account_number)],
+    ['Account Number #2',excelSafeText(job.power_company_account_number_2)],
+    ['Generator Activation Code',excelSafeText(job.generator_activation_code)],
+    ['Exported',new Date().toLocaleString()],
+    [],
+    ['DAILY WORK LOGS'],
+    ['Date','Employee','Labor Hours','Materials Used','Work Note','Entered At']
+  ];
+
+  if(logRows.length){
+    logRows.forEach(r=>{
+      summaryRows.push([
+        r['Date'],
+        r['Employee'],
+        r['Labor Hours'],
+        r['Materials Used'],
+        r['Work Note'],
+        r['Entered At']
+      ]);
+    });
+  }else{
+    summaryRows.push(['No saved Daily Work Logs found for this job.']);
+  }
+
+  const wsSummary=XLSX.utils.aoa_to_sheet(summaryRows);
+  wsSummary['!cols']=[
+    {wch:18},{wch:24},{wch:14},{wch:42},{wch:55},{wch:22}
+  ];
+  XLSX.utils.book_append_sheet(wb,wsSummary,'Job Summary');
+  const wsLogs=XLSX.utils.json_to_sheet(logRows.length?logRows:[{
+    'Date':'','Employee':'','Labor Hours':'','Materials Used':'','Work Note':'','Entered At':''
+  }]);
+  wsLogs['!cols']=[{wch:14},{wch:24},{wch:14},{wch:45},{wch:55},{wch:22}];
+  XLSX.utils.book_append_sheet(wb,wsLogs,'Daily Work Logs');
+
+  const docRows=(docsRes.data||[]).map(x=>({
+    'Document Type':'Document',
+    'File Name':excelSafeText(x.file_name),
+    'Uploaded At':excelDateTime(x.created_at)
+  }));
+  const wsDocs=XLSX.utils.json_to_sheet(docRows.length?docRows:[{
+    'Document Type':'','File Name':'','Uploaded At':''
+  }]);
+  wsDocs['!cols']=[{wch:22},{wch:48},{wch:22}];
+  XLSX.utils.book_append_sheet(wb,wsDocs,'Job Documents');
+
+  const cleanJob=(job.job_number||job.name||'job').toString().replace(/[^a-zA-Z0-9_-]+/g,'_');
+  XLSX.writeFile(wb,`Langlois_Electric_Job_${cleanJob}.xlsx`);
+
+  const workLogCount=(logsRes.data||[]).length;
+  msg($('exportJobExcelMessage'),`Excel file exported with ${workLogCount} Daily Work Log${workLogCount===1?'':'s'}.`);
+};
+
+function renderCompletedJobs(){
+  const box=$('completedJobsList');
+  if(!box)return;
+  const q=String($('completedJobSearch')?.value||'').trim().toLowerCase();
+  const completed=jobs
+    .filter(j=>j.status==='complete')
+    .filter(j=>[j.job_number,j.name,j.customer,j.address].join(' ').toLowerCase().includes(q))
+    .sort((a,b)=>
+      String(a.job_number||'').localeCompare(String(b.job_number||''),undefined,{numeric:true,sensitivity:'base'})
+    );
+
+  box.innerHTML=completed.length?completed.map(j=>`
+    <article class="job">
+      <div>
+        <h3>${esc(j.job_number?j.job_number+' — ':'')}${esc(j.name||'Job')}</h3>
+        <div class="meta">${esc(j.customer||'No customer')}${j.address?' • '+esc(j.address):''}</div>
+        <div class="meta">${j.start_date?'Start '+esc(j.start_date):''}${j.due_date?' • Due '+esc(j.due_date):''}</div>
+      </div>
+      <div class="job-actions">
+        <span class="status complete">Completed</span>
+        <button type="button" class="btn btn-light" data-open-completed-job="${j.id}">Open</button>
+      </div>
+    </article>`).join(''):'<div class="empty">No completed jobs match this search.</div>';
+
+  box.querySelectorAll('[data-open-completed-job]').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      $('completedJobsModal').classList.add('hidden');
+      await openJob(btn.dataset.openCompletedJob);
+    });
+  });
+}
+
+$('completedJobsBtn').onclick=()=>{
+  if(profile?.role!=='owner')return;
+  if($('completedJobSearch'))$('completedJobSearch').value='';
+  renderCompletedJobs();
+  $('completedJobsModal').classList.remove('hidden');
+};
+
+$('closeCompletedJobsModal').onclick=()=>$('completedJobsModal').classList.add('hidden');
+if($('completedJobSearch'))$('completedJobSearch').oninput=renderCompletedJobs;
+
+function populateDeleteJobSelect(){
+  const sel=$('deleteJobSelect');
+  if(!sel)return;
+  const sorted=[...jobs].sort((a,b)=>
+    String(a.customer||'').localeCompare(String(b.customer||''),undefined,{sensitivity:'base'}) ||
+    String(a.job_number||'').localeCompare(String(b.job_number||''),undefined,{numeric:true,sensitivity:'base'}) ||
+    String(a.name||'').localeCompare(String(b.name||''),undefined,{sensitivity:'base'})
+  );
+  sel.innerHTML=sorted.length
+    ? sorted.map(j=>`<option value="${j.id}">${esc(j.customer||'No Customer')} — ${esc(j.job_number?j.job_number+' — ':'')}${esc(j.name||'Job')}</option>`).join('')
+    : '<option value="">No jobs available</option>';
+}
+
+$('deleteJobTopBtn').onclick=()=>{
+  if(profile?.role!=='owner')return;
+  populateDeleteJobSelect();
+  msg($('deleteJobMessage'),'');
+  $('deleteJobModal').classList.remove('hidden');
+};
+
+$('closeDeleteJobModal').onclick=()=>$('deleteJobModal').classList.add('hidden');
+
+$('confirmDeleteJobBtn').onclick=async()=>{
+  if(profile?.role!=='owner')return;
+  const id=$('deleteJobSelect').value;
+  if(!id)return msg($('deleteJobMessage'),'There are no jobs to delete.',true);
+  const j=jobs.find(x=>x.id===id);
+  const label=j?.name||'this job';
+  if(!confirm(`Delete "${label}"? This will permanently remove the job and its related work logs.`))return;
+
+  msg($('deleteJobMessage'),'Deleting job...');
+  const {data:docs}=await sb.from('job_documents').select('storage_path').eq('job_id',id);
+  const paths=(docs||[]).map(x=>x.storage_path).filter(Boolean);
+  if(paths.length){
+    const {error:storageError}=await sb.storage.from('job-documents').remove(paths);
+    if(storageError)return msg($('deleteJobMessage'),'Could not remove job documents: '+storageError.message,true);
+  }
+  const {error}=await sb.from('jobs').delete().eq('id',id);
+  if(error)return msg($('deleteJobMessage'),error.message||String(error),true);
+
+  $('deleteJobModal').classList.add('hidden');
+  if(activeJobId===id){
+    $('jobModal').classList.add('hidden');
+    activeJobId=null;
+  }
+  await loadJobs();
+};
+
+
+
+
+
+
+
+function collapsePreferenceKey(){
+  const uid=session?.user?.id||'guest';
+  const jobKey=activeJobId||$('jobId')?.value||'new-job';
+  return `langlois_job_upper_collapsed_${uid}_${jobKey}`;
+}
+
+function applySavedCollapsePreference(){
+  const section=$('upperJobSection');
+  const btn=$('toggleUpperJobSectionBtn');
+  if(!section||!btn)return;
+
+  const collapsed=localStorage.getItem(collapsePreferenceKey())==='1';
+  section.classList.toggle('hidden',collapsed);
+  btn.textContent=collapsed
+    ? 'Expand Job Details & Documents ▼'
+    : 'Collapse Job Details & Documents ▲';
+}
+
+$('toggleUpperJobSectionBtn').onclick=()=>{
+  const section=$('upperJobSection');
+  if(!section)return;
+  const isHidden=section.classList.toggle('hidden');
+
+  localStorage.setItem(collapsePreferenceKey(),isHidden?'1':'0');
+
+  $('toggleUpperJobSectionBtn').textContent=isHidden
+    ? 'Expand Job Details & Documents ▼'
+    : 'Collapse Job Details & Documents ▲';
+};
+
+let jobAutoSaveTimer=null;
+let jobAutoSaveBusy=false;
+let jobAutoSaveQueued=false;
+let loadingJobIntoForm=false;
+
+function setJobAutoSaveStatus(textValue,isError=false){
+  const el=$('jobAutoSaveStatus');
+  if(!el)return;
+  el.textContent=textValue;
+  el.classList.toggle('error',!!isError);
+}
+
+function currentJobPayload(){
+  return {
+    job_number:$('jobNumber').value.trim(),
+    name:$('jobName').value.trim(),
+    customer:$('jobCustomer').value.trim(),
+    address:$('jobAddress').value.trim(),
+    power_company:$('jobPowerCompany').value.trim(),
+    power_company_account_number:$('jobPowerCompanyAccount').value.trim(),
+    power_company_account_number_2:$('jobPowerCompanyAccount2').value.trim(),
+    generator_activation_code:$('generatorActivationCode')?.value.trim()||'',
+    status:$('jobStatus').value,
+    updated_at:new Date().toISOString()
+  };
+}
+
+function newJobDraftKey(){
+  const uid=session?.user?.id||'guest';
+  return `langlois_new_job_draft_${uid}`;
+}
+
+function saveNewJobDraftLocally(){
+  if(activeJobId)return;
+  try{
+    localStorage.setItem(newJobDraftKey(),JSON.stringify(currentJobPayload()));
+  }catch(_){}
+}
+
+function clearNewJobDraftLocally(){
+  try{localStorage.removeItem(newJobDraftKey());}catch(_){}
+}
+
+async function saveJobDetailsAutomatically(){
+  if(profile?.role!=='owner'||loadingJobIntoForm)return;
+  if(jobAutoSaveBusy){
+    jobAutoSaveQueued=true;
+    return;
+  }
+
+  const payload=currentJobPayload();
+
+  // A brand-new job cannot be created in the database until it has a job name.
+  // Until then, preserve every typed field as a local draft.
+  if(!activeJobId && !payload.name){
+    saveNewJobDraftLocally();
+    setJobAutoSaveStatus('Draft backed up. Enter the Job name to create the job.');
+    return;
+  }
+
+  jobAutoSaveBusy=true;
+  setJobAutoSaveStatus('Saving automatically...');
+
+  try{
+    let res;
+    const wasNew=!activeJobId;
+
+    if(activeJobId){
+      res=await sb.from('jobs').update(payload).eq('id',activeJobId).select().single();
+    }else{
+      res=await sb.from('jobs').insert({
+        ...payload,
+        company_id:profile.company_id,
+        created_by:session.user.id
+      }).select().single();
+    }
+
+    if(res.error)throw res.error;
+
+    activeJobId=res.data.id;
+    $('jobId').value=activeJobId;
+    clearNewJobDraftLocally();
+
+    const existingIndex=jobs.findIndex(x=>x.id===activeJobId);
+    if(existingIndex>=0) jobs[existingIndex]={...jobs[existingIndex],...res.data};
+    else jobs.push(res.data);
+
+    $('jobDetailsExtras').classList.remove('hidden');
+    $('jobModalTitle').textContent=payload.name||'Job';
+
+    if(wasNew){
+      await logActivity('job',activeJobId,'created',{name:payload.name});
+    }
+
+    setJobAutoSaveStatus('Saved automatically.');
+    loadJobs();
+  }catch(err){
+    saveNewJobDraftLocally();
+    setJobAutoSaveStatus('Auto-save error: '+(err.message||String(err)),true);
+  }finally{
+    jobAutoSaveBusy=false;
+    if(jobAutoSaveQueued){
+      jobAutoSaveQueued=false;
+      saveJobDetailsAutomatically();
+    }
+  }
+}
+
+function scheduleJobAutoSave(){
+  if(profile?.role!=='owner'||loadingJobIntoForm)return;
+  saveNewJobDraftLocally();
+  setJobAutoSaveStatus('Changes pending...');
+  clearTimeout(jobAutoSaveTimer);
+  jobAutoSaveTimer=setTimeout(saveJobDetailsAutomatically,650);
+}
+
+['jobNumber','jobName','jobCustomer','jobAddress','jobPowerCompany','jobPowerCompanyAccount','jobPowerCompanyAccount2','generatorActivationCode'].forEach(id=>{
+  const el=$(id);
+  if(el)el.addEventListener('input',scheduleJobAutoSave);
+});
+if($('jobStatus'))$('jobStatus').addEventListener('change',scheduleJobAutoSave);
+
+// Keep form submission harmless if Enter is pressed in a field.
+$('jobForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  clearTimeout(jobAutoSaveTimer);
+  await saveJobDetailsAutomatically();
+});
+
+
+async function loadJobExtras(){
+  if(!activeJobId)return;
+
+  const [d,docs,pictures]=await Promise.all([
+    sb.from('daily_work_logs')
+      .select('*')
+      .eq('job_id',activeJobId)
+      .order('work_date',{ascending:false})
+      .order('created_at',{ascending:false}),
+    sb.from('job_documents')
+      .select('*')
+      .eq('job_id',activeJobId)
+      .order('created_at',{ascending:false}),
+    sb.from('job_pictures')
+      .select('*')
+      .eq('job_id',activeJobId)
+      .order('created_at',{ascending:false})
+  ]);
+
+  if($('dailyWorkLogsList')){
+    if(d.error){
+      $('dailyWorkLogsList').innerHTML=`<div class="notice error">${esc(d.error.message)}</div>`;
+    }else{
+      const rows=d.data||[];
+      let profileNames={};
+      const userIds=[...new Set(rows.map(x=>x.user_id).filter(Boolean))];
+      if(userIds.length){
+        const profilesRes=await sb.from('profiles').select('id,full_name').in('id',userIds);
+        if(!profilesRes.error){
+          profileNames=Object.fromEntries((profilesRes.data||[]).map(p=>[p.id,p.full_name||'Employee']));
+        }
+      }
+
+      $('dailyWorkLogsList').innerHTML=rows.length?rows.map(x=>{
+        const who=profileNames[x.user_id]||'Employee';
+        const labor=Number(x.labor_hours||0);
+        const dateLabel=(()=>{
+          const parts=String(x.work_date||'').split('-');
+          return parts.length===3 ? `${Number(parts[1])}/${Number(parts[2])}/${parts[0]}` : String(x.work_date||'Daily Work Log');
+        })();
+        const canEdit=profile?.role==='owner'||x.user_id===session?.user?.id;
+        return `<details class="daily-log-accordion" style="margin-bottom:8px" data-work-log="${x.id}">
+          <summary style="cursor:pointer;list-style:none;background:#16a34a;color:white;font-weight:800;padding:8px 10px 8px 13px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+            <span>${esc(dateLabel)}</span>
+            <span style="display:flex;align-items:center;gap:8px">
+              ${canEdit?`<button type="button" class="btn btn-light" data-edit-work-log="${x.id}" style="min-height:34px;padding:5px 10px;font-size:13px" onclick="event.preventDefault();event.stopPropagation();">Edit Work Log</button>`:''}
+              <span aria-hidden="true">▼</span>
+            </span>
+          </summary>
+
+          <div class="list-row daily-log-view" style="margin-top:6px">
+            <strong>${esc(who)}</strong><br>
+            <small><strong>Labor:</strong> ${labor.toFixed(2)} hr${labor===1?'':'s'}</small>
+            ${x.materials_used?`<div style="margin-top:5px"><strong>Materials:</strong> ${esc(x.materials_used)}</div>`:''}
+            ${x.work_note?`<div style="margin-top:5px"><strong>Work:</strong> ${esc(x.work_note)}</div>`:''}
+          </div>
+
+          ${canEdit?`<div class="list-row daily-log-edit hidden" style="margin-top:6px">
+            <div class="split">
+              <div class="field">
+                <label>Date</label>
+                <input type="date" data-edit-work-date value="${esc(x.work_date||'')}">
+              </div>
+              <div class="field">
+                <label>Labor Hours</label>
+                <input type="number" min="0" max="24" step="0.25" data-edit-labor-hours value="${labor}">
+              </div>
+            </div>
+            <div class="field">
+              <label>Materials Used</label>
+              <textarea rows="3" data-edit-materials>${esc(x.materials_used||'')}</textarea>
+            </div>
+            <div class="field">
+              <label>Work Note</label>
+              <textarea rows="4" data-edit-work-note>${esc(x.work_note||'')}</textarea>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="btn btn-primary" data-save-work-log="${x.id}">Save Changes</button>
+              <button type="button" class="btn btn-light" data-cancel-work-log="${x.id}">Cancel</button>
+            </div>
+          </div>`:''}
+        </details>`;
+      }).join(''):'<div class="empty">No daily work logs yet.</div>';
+
+      $('dailyWorkLogsList').querySelectorAll('[data-edit-work-log]').forEach(btn=>{
+        btn.addEventListener('click',e=>{
+          e.preventDefault();
+          e.stopPropagation();
+          const details=btn.closest('[data-work-log]');
+          if(!details)return;
+          details.open=true;
+          details.querySelector('.daily-log-view')?.classList.add('hidden');
+          details.querySelector('.daily-log-edit')?.classList.remove('hidden');
+        });
+      });
+
+      $('dailyWorkLogsList').querySelectorAll('[data-cancel-work-log]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const details=btn.closest('[data-work-log]');
+          if(!details)return;
+          details.querySelector('.daily-log-edit')?.classList.add('hidden');
+          details.querySelector('.daily-log-view')?.classList.remove('hidden');
+        });
+      });
+
+      $('dailyWorkLogsList').querySelectorAll('[data-save-work-log]').forEach(btn=>{
+        btn.addEventListener('click',async()=>{
+          const details=btn.closest('[data-work-log]');
+          if(!details)return;
+          const id=btn.dataset.saveWorkLog;
+          const work_date=details.querySelector('[data-edit-work-date]')?.value||todayLocalDate();
+          const labor_hours=Number(details.querySelector('[data-edit-labor-hours]')?.value||0);
+          const materials_used=details.querySelector('[data-edit-materials]')?.value.trim()||'';
+          const work_note=details.querySelector('[data-edit-work-note]')?.value.trim()||'';
+
+          if(labor_hours<0||labor_hours>24){
+            return msg($('jobModalMessage'),'Labor hours must be between 0 and 24.',true);
+          }
+
+          btn.disabled=true;
+          btn.textContent='Saving...';
+
+          const {error:updateError}=await sb.from('daily_work_logs')
+            .update({work_date,labor_hours,materials_used,work_note})
+            .eq('id',id);
+
+          if(updateError){
+            btn.disabled=false;
+            btn.textContent='Save Changes';
+            return msg($('jobModalMessage'),updateError.message||String(updateError),true);
+          }
+
+          await logActivity('job',activeJobId,'daily_work_log_updated',{work_log_id:id,work_date,labor_hours});
+          await loadJobExtras();
+          msg($('jobModalMessage'),'Daily work log updated.');
+        });
+      });
+    }
+  }
+
+  if($('jobPicturesList')){
+    if(pictures.error){
+      if($('jobPicturesSummaryText'))$('jobPicturesSummaryText').textContent='Job Pictures';
+      $('jobPicturesList').innerHTML=`<div class="notice error">${esc(pictures.error.message)}</div>`;
+    }else{
+      const pictureRows=pictures.data||[];
+      if($('jobPicturesSummaryText')){
+        $('jobPicturesSummaryText').textContent=`Job Pictures (${pictureRows.length})`;
+      }
+      if(!pictureRows.length){
+        $('jobPicturesList').innerHTML='<div class="empty">No job pictures uploaded yet.</div>';
+      }else{
+        const signedPictures=await Promise.all(pictureRows.map(async pic=>{
+          const {data:signed,error:signedError}=await sb.storage
+            .from('job-documents')
+            .createSignedUrl(pic.storage_path,3600);
+          return {...pic,signed_url:signedError?'':signed?.signedUrl};
+        }));
+
+        $('jobPicturesList').innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px">`+
+          signedPictures.map(pic=>`
+            <div class="list-row" style="padding:8px">
+              ${pic.signed_url
+                ? `<a href="${pic.signed_url}" target="_blank" rel="noopener">
+                    <img src="${pic.signed_url}" alt="${esc(pic.file_name)}" style="width:100%;height:95px;object-fit:cover;border-radius:8px;display:block">
+                   </a>`
+                : `<div class="empty" style="height:120px;display:flex;align-items:center;justify-content:center">Preview unavailable</div>`
+              }
+              <div style="font-size:12px;margin-top:6px;word-break:break-word">${esc(pic.file_name)}</div>
+              ${profile?.role==='owner'?`<button type="button" class="btn btn-danger" data-delete-picture="${pic.id}" style="width:100%;margin-top:6px">Delete</button>`:''}
+            </div>
+          `).join('')+`</div>`;
+
+        $('jobPicturesList').querySelectorAll('[data-delete-picture]').forEach(btn=>{
+          btn.addEventListener('click',async()=>{
+            const id=btn.dataset.deletePicture;
+            const pic=pictureRows.find(x=>x.id===id);
+            if(!pic)return;
+            if(!confirm(`Delete "${pic.file_name}" from this job?`))return;
+
+            const {error:storageError}=await sb.storage.from('job-documents').remove([pic.storage_path]);
+            if(storageError)return msg($('jobModalMessage'),storageError.message||String(storageError),true);
+
+            const {error:deleteError}=await sb.from('job_pictures').delete().eq('id',id);
+            if(deleteError)return msg($('jobModalMessage'),deleteError.message||String(deleteError),true);
+
+            await loadJobExtras();
+            msg($('jobModalMessage'),'Job picture deleted.');
+          });
+        });
+      }
+    }
+  }
+
+  if($('jobDocumentsList')){
+    if(docs.error){
+      if($('jobDocumentsSummaryText'))$('jobDocumentsSummaryText').textContent='Job Documents';
+      $('jobDocumentsList').innerHTML=`<div class="notice error">${esc(docs.error.message)}</div>`;
+    }else{
+      const rows=docs.data||[];
+      if($('jobDocumentsSummaryText')){
+        $('jobDocumentsSummaryText').textContent=`Job Documents (${rows.length})`;
+      }
+      $('jobDocumentsList').innerHTML=rows.length?rows.map(x=>{
+        const createdDate=new Date(x.created_at);
+        const shortDate=createdDate.toLocaleDateString();
+        return `<details class="job-document-accordion" style="margin-bottom:8px">
+          <summary style="cursor:pointer;list-style:none;background:var(--surface);border:1px solid var(--border);font-weight:700;padding:9px 11px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+            <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.file_name)}</span>
+            <span style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <small style="font-weight:600;color:var(--muted)">${esc(shortDate)}</small>
+              <span aria-hidden="true">▼</span>
+            </span>
+          </summary>
+          <div class="list-row" style="margin-top:6px">
+            <small>${createdDate.toLocaleString()}</small>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+              <button type="button" class="btn btn-light" data-view-doc="${x.id}">View Document</button>
+              ${profile?.role==='owner'?`<button type="button" class="btn btn-danger" data-delete-doc="${x.id}">Delete</button>`:''}
+            </div>
+          </div>
+        </details>`;
+      }).join(''):'<div class="empty">No job documents yet.</div>';
+
+      $('jobDocumentsList').querySelectorAll('[data-view-doc]').forEach(btn=>{
+        btn.addEventListener('click',()=>openJobDocument(btn.dataset.viewDoc));
+      });
+      $('jobDocumentsList').querySelectorAll('[data-delete-doc]').forEach(btn=>{
+        btn.addEventListener('click',()=>deleteJobDocument(btn.dataset.deleteDoc));
+      });
+    }
+  }
+}
+
+async function openJobDocument(documentId){
+  // Open a blank tab immediately from the user's click.
+  // iPhone/iPad Safari can block window.open() when it happens only
+  // after awaiting the Supabase signed-URL request.
+  const viewerWindow=window.open('about:blank','_blank');
+
+  if(viewerWindow){
+    try{
+      viewerWindow.document.title='Loading document...';
+      viewerWindow.document.body.innerHTML='<div style="font-family:Arial,sans-serif;padding:24px">Loading document...</div>';
+    }catch(_){}
+  }
+
+  const {data:doc,error}=await sb.from('job_documents').select('*').eq('id',documentId).single();
+  if(error||!doc){
+    if(viewerWindow) viewerWindow.close();
+    return msg($('jobModalMessage'),error?.message||'Document not found.',true);
+  }
+
+  const {data,error:signError}=await sb.storage.from('job-documents').createSignedUrl(doc.storage_path,600);
+  if(signError||!data?.signedUrl){
+    if(viewerWindow) viewerWindow.close();
+    return msg($('jobModalMessage'),signError?.message||'Could not open document.',true);
+  }
+
+  if(viewerWindow){
+    viewerWindow.location.replace(data.signedUrl);
+  }else{
+    // Fallback if a browser blocks the new tab completely.
+    window.location.href=data.signedUrl;
+  }
+}
+
+function safeStorageFileName(name){
+  return String(name||'document')
+    .replace(/[^a-zA-Z0-9._-]+/g,'_')
+    .replace(/_+/g,'_')
+    .slice(-120);
+}
+
+async function deleteJobDocument(documentId){
+  if(profile?.role!=='owner')return;
+  const {data:doc,error}=await sb.from('job_documents').select('*').eq('id',documentId).single();
+  if(error||!doc)return msg($('jobModalMessage'),error?.message||'Document not found.',true);
+  if(!confirm(`Delete "${doc.file_name}" from this job?`))return;
+
+  const {error:storageError}=await sb.storage.from('job-documents').remove([doc.storage_path]);
+  if(storageError)return msg($('jobModalMessage'),storageError.message,true);
+
+  const {error:deleteError}=await sb.from('job_documents').delete().eq('id',documentId);
+  if(deleteError)return msg($('jobModalMessage'),deleteError.message,true);
+
+  await loadJobExtras();
+  msg($('jobModalMessage'),'Document deleted.');
+}
+
+
+function setJobPicturesMessage(message,isError=false){
+  const el=$('jobPicturesMessage');
+  if(!el)return;
+  el.textContent=message;
+  el.classList.toggle('error',!!isError);
+}
+
+if($('chooseJobPictureFilesBtn')){
+  $('chooseJobPictureFilesBtn').addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    $('jobPictureFiles')?.click();
+  });
+}
+
+if($('chooseJobPermitFileBtn')){
+  $('chooseJobPermitFileBtn').addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    $('jobPermitFile')?.click();
+  });
+}
+
+async function uploadSelectedJobPictures(){
+    const button=$('jobPictureFiles');
+
+    if(!profile?.company_id){
+      setJobPicturesMessage('Your employee account is not connected to a company.',true);
+      return;
+    }
+    if(!activeJobId){
+      setJobPicturesMessage('Open and save the job before uploading pictures.',true);
+      return;
+    }
+
+    const input=$('jobPictureFiles');
+    const files=[...(input?.files||[])];
+    if(!files.length){
+      setJobPicturesMessage('Choose one or more pictures first.',true);
+      return;
+    }
+
+    // iPhone photos may arrive as HEIC/HEIF with inconsistent MIME types.
+    // Accept any image/* MIME, common image filename extensions, or blank MIME
+    // when Safari has supplied an actual selected File object.
+    const maxFileSize=50*1024*1024;
+    const imageExt=/\.(jpe?g|png|gif|webp|heic|heif|bmp|tiff?|avif)$/i;
+    const invalid=files.find(file=>{
+      const type=String(file.type||'').toLowerCase();
+      const name=String(file.name||'');
+      const looksLikeImage=type.startsWith('image/') || imageExt.test(name) || (!type && file.size>0);
+      return !looksLikeImage || file.size>maxFileSize;
+    });
+
+    if(invalid){
+      setJobPicturesMessage(`"${invalid.name||'Selected file'}" is not a supported picture or is over 50 MB.`,true);
+      return;
+    }
+
+    button.disabled=true;
+
+    try{
+      let completed=0;
+      setJobPicturesMessage(`Uploading 0 of ${files.length}...`);
+
+      for(const file of files){
+        const unique=(window.crypto && typeof window.crypto.randomUUID==='function')
+          ? window.crypto.randomUUID()
+          : `${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+
+        const safeName=safeStorageFileName(file.name||`iphone_photo_${completed+1}.jpg`);
+        const path=`${profile.company_id}/${activeJobId}/pictures/${unique}_${safeName}`;
+
+        const uploadOptions={upsert:false};
+        if(file.type)uploadOptions.contentType=file.type;
+
+        const {error:uploadError}=await sb.storage
+          .from('job-documents')
+          .upload(path,file,uploadOptions);
+
+        if(uploadError)throw uploadError;
+
+        const {error:metaError}=await sb.from('job_pictures').insert({
+          company_id:profile.company_id,
+          job_id:activeJobId,
+          uploaded_by:session.user.id,
+          file_name:file.name||safeName,
+          storage_path:path,
+          mime_type:file.type||null,
+          file_size:file.size||null
+        });
+
+        if(metaError){
+          await sb.storage.from('job-documents').remove([path]);
+          throw metaError;
+        }
+
+        completed++;
+        setJobPicturesMessage(`Uploading ${completed} of ${files.length}...`);
+      }
+
+      input.value='';
+      await loadJobExtras();
+      if($('jobPicturesDetails'))$('jobPicturesDetails').open=true;
+      setJobPicturesMessage(`${files.length} picture${files.length===1?'':'s'} uploaded successfully.`);
+      msg($('jobModalMessage'),`${files.length} job picture${files.length===1?'':'s'} uploaded.`);
+    }catch(err){
+      const message=err?.message||String(err);
+      setJobPicturesMessage(`Upload failed: ${message}`,true);
+      msg($('jobModalMessage'),message,true);
+    }finally{
+      button.disabled=false;
+    }
+}
+
+if($('jobPictureFiles')){
+  $('jobPictureFiles').addEventListener('change',async()=>{
+    const files=[...($('jobPictureFiles').files||[])];
+    if(!files.length){
+      setJobPicturesMessage('Choose one or more pictures.');
+      return;
+    }
+    await uploadSelectedJobPictures();
+  });
+}
+
+async function uploadSelectedJobDocument(){
+  const input=$('jobPermitFile');
+  const files=[...(input?.files||[])];
+
+  if(!profile?.company_id){
+    return msg($('jobModalMessage'),'Your account is not connected to a company.',true);
+  }
+  if(!activeJobId){
+    return msg($('jobModalMessage'),'Open and save the job before uploading documents.',true);
+  }
+  if(profile?.role!=='owner'){
+    return msg($('jobModalMessage'),'Only the Owner can upload Job Documents.',true);
+  }
+  if(!files.length){
+    return msg($('jobModalMessage'),'Choose one or more files first.',true);
+  }
+
+  const maxFileSize=15*1024*1024;
+  const tooLarge=files.find(file=>file.size>maxFileSize);
+  if(tooLarge){
+    return msg($('jobModalMessage'),`"${tooLarge.name||'Selected file'}" is over the 15 MB limit.`,true);
+  }
+
+  try{
+    let completed=0;
+    msg($('jobModalMessage'),`Uploading 0 of ${files.length} document${files.length===1?'':'s'}...`);
+
+    for(const file of files){
+      const unique=(window.crypto && typeof window.crypto.randomUUID==='function')
+        ? window.crypto.randomUUID()
+        : `${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+
+      const safeName=safeStorageFileName(file.name||`document_${completed+1}`);
+      const path=`${profile.company_id}/${activeJobId}/documents/${unique}_${safeName}`;
+
+      const uploadOptions={
+        cacheControl:'3600',
+        upsert:false
+      };
+      if(file.type)uploadOptions.contentType=file.type;
+
+      const {error:uploadError}=await sb.storage
+        .from('job-documents')
+        .upload(path,file,uploadOptions);
+
+      if(uploadError)throw uploadError;
+
+      const {error:metaError}=await sb.from('job_documents').insert({
+        company_id:profile.company_id,
+        job_id:activeJobId,
+        uploaded_by:session.user.id,
+        document_type:'job_permit',
+        file_name:file.name||safeName,
+        storage_path:path,
+        mime_type:file.type||null,
+        file_size:file.size||null
+      });
+
+      if(metaError){
+        await sb.storage.from('job-documents').remove([path]);
+        throw metaError;
+      }
+
+      completed++;
+      msg($('jobModalMessage'),`Uploading ${completed} of ${files.length} document${files.length===1?'':'s'}...`);
+    }
+
+    input.value='';
+    await loadJobExtras();
+    if($('jobDocumentsDetails'))$('jobDocumentsDetails').open=true;
+    msg($('jobModalMessage'),`${files.length} document${files.length===1?'':'s'} uploaded successfully.`);
+  }catch(err){
+    msg($('jobModalMessage'),'Document upload failed: '+(err?.message||String(err)),true);
+  }
+}
+
+if($('jobPermitFile')){
+  $('jobPermitFile').addEventListener('change',async()=>{
+    const files=[...($('jobPermitFile').files||[])];
+    if(!files.length){
+      return msg($('jobModalMessage'),'Choose one or more files.');
+    }
+    await uploadSelectedJobDocument();
+  });
+}
+
+
+async function logActivity(entity_type,entity_id,action,details){
+  try{await sb.from('activity_logs').insert({company_id:profile.company_id,user_id:session.user.id,entity_type,entity_id,action,details});}catch(e){}
+}
+
+function openInvite(){if(!['owner','admin'].includes(profile?.role))return;$('inviteResult').innerHTML='';$('inviteModal').classList.remove('hidden')}
+$('inviteBtn').onclick=openInvite;$('inviteTopBtn').onclick=openInvite;$('bottomInvite').onclick=openInvite;$('closeInviteModal').onclick=()=>$('inviteModal').classList.add('hidden');
+$('generateInviteBtn').onclick=async()=>{
+  const {data,error}=await sb.rpc('create_employee_invite',{p_role:$('inviteRole').value});
+  if(error)return $('inviteResult').innerHTML=`<div class="notice error">${esc(error.message)}</div>`;
+  $('inviteResult').innerHTML=`<div class="notice">Give this one-time code to the employee:</div><div class="codebox">${esc(data)}</div><div class="notice">The code expires in 14 days and can only be used once.</div>`;
+};
+
+$('bottomRefresh').onclick=loadJobs;
+
+function subscribeRealtime(){
+  if(realtimeChannel)sb.removeChannel(realtimeChannel);
+  realtimeChannel=sb.channel('langlois-live')
+    .on('postgres_changes',{event:'*',schema:'public',table:'jobs'},()=>loadJobs())
+    .on('postgres_changes',{event:'*',schema:'public',table:'job_notes'},()=>{if(activeJobId)loadJobExtras()})
+    .on('postgres_changes',{event:'*',schema:'public',table:'materials'},()=>{if(activeJobId)loadJobExtras()})
+    .on('postgres_changes',{event:'*',schema:'public',table:'daily_work_logs'},()=>{if(activeJobId)loadJobExtras()})
+    .on('postgres_changes',{event:'*',schema:'public',table:'job_documents'},()=>{if(activeJobId)loadJobExtras()})
+    .on('postgres_changes',{event:'*',schema:'public',table:'job_pictures'},()=>{if(activeJobId)loadJobExtras()})
+    .subscribe();
+}
+
+
+async function loadEmployeesManager(){
+  if(profile?.role!=='owner')return;
+  const box=$('employeesList');
+  if(!box)return;
+  box.innerHTML='<div class="empty">Loading employees...</div>';
+  msg($('employeesMessage'),'');
+  const {data,error}=await sb.from('profiles')
+    .select('id,full_name,role,active,created_at')
+    .eq('company_id',profile.company_id)
+    .order('full_name',{ascending:true});
+
+  if(error){
+    box.innerHTML=`<div class="notice error">${esc(error.message)}</div>`;
+    return;
+  }
+
+  const employees=(data||[]).filter(p=>p.id!==session?.user?.id && p.role!=='owner');
+  if(!employees.length){
+    box.innerHTML='<div class="empty">No employees connected yet.</div>';
+    return;
+  }
+
+  box.innerHTML=employees.map(p=>{
+    const roleLabel=p.role==='admin'?'Admin / Foreman':'Employee';
+    const statusLabel=p.active?'Active':'Inactive';
+    return `<div class="list-row" data-employee-row="${p.id}">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div>
+          <strong>${esc(p.full_name||'Employee')}</strong><br>
+          <small>${esc(roleLabel)} • ${esc(statusLabel)}</small>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${p.active
+            ? `<button type="button" class="btn btn-light" data-employee-action="deactivate" data-user-id="${p.id}" data-name="${esc(p.full_name||'Employee')}">Deactivate</button>`
+            : `<button type="button" class="btn btn-primary" data-employee-action="reactivate" data-user-id="${p.id}" data-name="${esc(p.full_name||'Employee')}">Reactivate</button>`
+          }
+          <button type="button" class="btn btn-danger" data-employee-action="delete" data-user-id="${p.id}" data-name="${esc(p.full_name||'Employee')}">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  box.querySelectorAll('[data-employee-action]').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const action=btn.dataset.employeeAction;
+      const userId=btn.dataset.userId;
+      const name=btn.dataset.name||'this employee';
+
+      if(action==='deactivate' && !confirm(`Deactivate ${name}? They will no longer be able to use the app until reactivated.`))return;
+      if(action==='reactivate' && !confirm(`Reactivate ${name}? They will be able to sign in again.`))return;
+      if(action==='delete' && !confirm(`Permanently delete ${name}'s employee account? Their existing job work-log history will remain, but they will no longer be able to sign in.`))return;
+
+      btn.disabled=true;
+      msg($('employeesMessage'),action==='delete'?'Deleting employee...':'Updating employee...');
+
+      const {data,error}=await sb.functions.invoke('manage-employees',{
+        body:{action,user_id:userId}
+      });
+
+      if(error){
+        btn.disabled=false;
+        return msg($('employeesMessage'),error.message||String(error),true);
+      }
+      if(data?.error){
+        btn.disabled=false;
+        return msg($('employeesMessage'),data.error,true);
+      }
+
+      msg($('employeesMessage'),
+        action==='delete'?'Employee deleted.':
+        action==='deactivate'?'Employee deactivated.':'Employee reactivated.'
+      );
+      await loadEmployeesManager();
+    });
+  });
+}
+
+if($('employeesTopBtn')){
+  $('employeesTopBtn').onclick=async()=>{
+    if(profile?.role!=='owner')return;
+    $('employeesModal').classList.remove('hidden');
+    await loadEmployeesManager();
+  };
+}
+if($('closeEmployeesModal')) $('closeEmployeesModal').onclick=()=>$('employeesModal').classList.add('hidden');
+
+sb.auth.onAuthStateChange((event,s)=>{
+  if(event==='PASSWORD_RECOVERY'){session=s;show('reset');return;}
+  if(event==='SIGNED_IN'&&s)routeSession(s);
+  if(event==='SIGNED_OUT')show('auth');
+});
+(async()=>{
+  const {data}=await sb.auth.getSession();
+  const isReset=location.search.includes('password-reset=1') || location.hash.includes('type=recovery');
+  if(isReset && data.session){session=data.session;show('reset');}
+  else await routeSession(data.session);
+})();
+if(document.getElementById('dailyWorkDate'))document.getElementById('dailyWorkDate').value=todayLocalDate();
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
