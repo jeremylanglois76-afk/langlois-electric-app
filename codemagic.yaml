@@ -44,7 +44,7 @@ workflows:
       - name: Build signed IPA
         script: |
           set -e
-          sed -i '' 's/CURRENT_PROJECT_VERSION = 1;/CURRENT_PROJECT_VERSION = 2;/g' ios/App/App.xcodeproj/project.pbxproj
+          sed -i '' 's/CURRENT_PROJECT_VERSION = 1;/CURRENT_PROJECT_VERSION = 5;/g' ios/App/App.xcodeproj/project.pbxproj
           xcode-project build-ipa \
             --workspace ios/App/App.xcworkspace \
             --scheme App
