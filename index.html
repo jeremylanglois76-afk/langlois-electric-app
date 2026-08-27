@@ -214,17 +214,24 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.hidden{display
 
         </div>
 
+
+      </div>
+    </div>
+
+    <div id="jobMediaExtras" class="hidden">
+
         <details id="jobPicturesDetails" style="margin-top:16px">
           <summary id="jobPicturesSummary" style="cursor:pointer;list-style:none;background:#16a34a;color:white;font-weight:800;padding:8px 10px 8px 12px;border-radius:8px;display:flex;align-items:center;gap:10px">
             <span id="jobPicturesSummaryText" style="flex:1;min-width:0">Job Pictures (0)</span>
-            <button id="chooseJobPictureFilesBtn" type="button" class="btn btn-light" style="margin:0;min-height:34px;padding:5px 10px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
+            <label for="jobPictureFiles" class="btn btn-light" style="margin:0;min-height:34px;padding:5px 10px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();">
               Choose Files
-            </button>
+            </label>
             <input id="jobPictureFiles" type="file" accept="image/*,.heic,.heif" multiple style="display:none">
             <span aria-hidden="true" style="flex-shrink:0">▼</span>
           </summary>
 
           <div style="padding-top:10px">
+            <button id="uploadJobPicturesBtn" type="button" class="btn btn-primary" style="width:100%">Upload Pictures</button>
             <div id="jobPicturesMessage" class="notice" style="margin-top:8px;text-align:center">Choose one or more pictures.</div>
             <div id="jobPicturesList" class="list" style="margin-top:10px"></div>
           </div>
@@ -233,18 +240,20 @@ button,input,select,textarea{font:inherit} button{cursor:pointer}.hidden{display
         <details id="jobDocumentsDetails" style="margin-top:16px">
           <summary id="jobDocumentsSummary" style="cursor:pointer;list-style:none;background:#16a34a;color:white;font-weight:800;padding:8px 10px 8px 12px;border-radius:8px;display:flex;align-items:center;gap:10px">
             <span id="jobDocumentsSummaryText" style="flex:1;min-width:0">Job Documents (0)</span>
-            <button id="chooseJobPermitFileBtn" type="button" class="btn btn-light" style="margin:0;min-height:34px;padding:5px 10px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0">
-              Choose Files
-            </button>
-            <input id="jobPermitFile" type="file" multiple style="display:none">
+            <label for="jobPermitFile" class="btn btn-light" style="margin:0;min-height:34px;padding:5px 10px;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" onclick="event.preventDefault();event.stopPropagation();">
+              Choose File
+            </label>
+            <input id="jobPermitFile" type="file" accept=".pdf,image/jpeg,image/png,image/heic,image/heif,application/pdf" style="display:none">
             <span aria-hidden="true" style="flex-shrink:0">▼</span>
           </summary>
 
           <div style="padding-top:10px">
+            <div>
+              <button id="uploadJobPermitBtn" type="button" class="btn btn-primary" style="width:100%">Upload Documents</button>
+            </div>
             <div id="jobDocumentsList" class="list" style="margin-top:10px"></div>
           </div>
         </details>
-      </div>
     </div>
 
     <div id="dailyWorkSection">
@@ -611,7 +620,7 @@ function resetJobForm(){
   applySavedCollapsePreference();
   
   
-  activeJobId=null; $('jobId').value='';$('jobNumber').value=getNextJobNumber();$('jobName').value='';$('jobCustomer').value='';$('jobAddress').value='';$('jobStatus').value='not_started';$('jobDetailsExtras').classList.add('hidden');$('jobModalTitle').textContent='New Job';if($('jobPowerCompany'))$('jobPowerCompany').value='';if($('jobPowerCompanyAccount'))$('jobPowerCompanyAccount').value='';if($('generatorActivationCode'))$('generatorActivationCode').value='';
+  activeJobId=null; $('jobId').value='';$('jobNumber').value=getNextJobNumber();$('jobName').value='';$('jobCustomer').value='';$('jobAddress').value='';$('jobStatus').value='not_started';$('jobDetailsExtras').classList.add('hidden');if($('jobMediaExtras'))$('jobMediaExtras').classList.add('hidden');$('jobModalTitle').textContent='New Job';if($('jobPowerCompany'))$('jobPowerCompany').value='';if($('jobPowerCompanyAccount'))$('jobPowerCompanyAccount').value='';if($('generatorActivationCode'))$('generatorActivationCode').value='';
   $('jobPowerCompanyAccount2').value='';if($('jobPowerCompanyAccount2'))$('jobPowerCompanyAccount2').value='';if($('dailyWorkDate'))$('dailyWorkDate').value=todayLocalDate();if($('dailyLaborHours'))$('dailyLaborHours').value='';if($('dailyMaterialsUsed'))$('dailyMaterialsUsed').value='';if($('dailyWorkNote'))$('dailyWorkNote').value='';msg($('jobModalMessage'),'');
   setJobAutoSaveStatus('Job details save automatically.');
   loadingJobIntoForm=false;
@@ -622,7 +631,7 @@ $('closeJobModal').onclick=()=>$('jobModal').classList.add('hidden');
 async function openJob(id){
   const j=jobs.find(x=>x.id===id); if(!j)return;
   loadingJobIntoForm=true;
-  activeJobId=id;$('jobId').value=id;$('jobNumber').value=j.job_number||'';$('jobName').value=j.name||'';$('jobCustomer').value=j.customer||'';$('jobAddress').value=j.address||'';$('jobPowerCompany').value=j.power_company||'';$('jobPowerCompanyAccount').value=j.power_company_account_number||'';$('jobPowerCompanyAccount2').value=j.power_company_account_number_2||'';if($('generatorActivationCode'))$('generatorActivationCode').value=j.generator_activation_code||'';$('jobStatus').value=j.status||'not_started';$('jobModalTitle').textContent=j.name||'Job';applySavedCollapsePreference();$('jobDetailsExtras').classList.remove('hidden');applyJobDetailPermissions();if($('dailyWorkDate')&&!$('dailyWorkDate').value)$('dailyWorkDate').value=todayLocalDate();$('jobModal').classList.remove('hidden');msg($('jobModalMessage'),'');
+  activeJobId=id;$('jobId').value=id;$('jobNumber').value=j.job_number||'';$('jobName').value=j.name||'';$('jobCustomer').value=j.customer||'';$('jobAddress').value=j.address||'';$('jobPowerCompany').value=j.power_company||'';$('jobPowerCompanyAccount').value=j.power_company_account_number||'';$('jobPowerCompanyAccount2').value=j.power_company_account_number_2||'';if($('generatorActivationCode'))$('generatorActivationCode').value=j.generator_activation_code||'';$('jobStatus').value=j.status||'not_started';$('jobModalTitle').textContent=j.name||'Job';applySavedCollapsePreference();$('jobDetailsExtras').classList.remove('hidden');if($('jobMediaExtras'))$('jobMediaExtras').classList.remove('hidden');applyJobDetailPermissions();if($('dailyWorkDate')&&!$('dailyWorkDate').value)$('dailyWorkDate').value=todayLocalDate();$('jobModal').classList.remove('hidden');msg($('jobModalMessage'),'');
   setJobAutoSaveStatus('Saved automatically.');
   if($('jobPicturesDetails'))$('jobPicturesDetails').open=false;
   if($('jobDocumentsDetails'))$('jobDocumentsDetails').open=false;
@@ -1099,6 +1108,7 @@ async function saveJobDetailsAutomatically(){
     else jobs.push(res.data);
 
     $('jobDetailsExtras').classList.remove('hidden');
+    if($('jobMediaExtras'))$('jobMediaExtras').classList.remove('hidden');
     $('jobModalTitle').textContent=payload.name||'Job';
 
     if(wasNew){
@@ -1139,6 +1149,63 @@ $('jobForm').addEventListener('submit',async e=>{
   clearTimeout(jobAutoSaveTimer);
   await saveJobDetailsAutomatically();
 });
+
+
+// Save a NEW Daily Work Log every time the button is pressed.
+// Multiple logs are intentionally allowed for the same job/date.
+if($('saveDailyWorkLogBtn'))$('saveDailyWorkLogBtn').onclick=async()=>{
+  if(!activeJobId)return msg($('jobModalMessage'),'Open a saved job before adding a Daily Work Log.',true);
+  if(!session?.user?.id)return msg($('jobModalMessage'),'Your login session has expired. Please sign in again.',true);
+
+  const work_date=$('dailyWorkDate')?.value||todayLocalDate();
+  const rawHours=String($('dailyLaborHours')?.value??'').trim();
+  const labor_hours=rawHours===''?0:Number(rawHours);
+  const materials_used=$('dailyMaterialsUsed')?.value.trim()||'';
+  const work_note=$('dailyWorkNote')?.value.trim()||'';
+
+  if(!Number.isFinite(labor_hours)||labor_hours<0||labor_hours>24){
+    return msg($('jobModalMessage'),'Labor hours must be between 0 and 24.',true);
+  }
+  if(rawHours===''&&!materials_used&&!work_note){
+    return msg($('jobModalMessage'),'Enter labor hours, materials, or a work note before saving.',true);
+  }
+
+  const btn=$('saveDailyWorkLogBtn');
+  btn.disabled=true;
+  btn.textContent='Saving...';
+
+  try{
+    const {data,error}=await sb.from('daily_work_logs').insert({
+      job_id:activeJobId,
+      user_id:session.user.id,
+      work_date,
+      labor_hours,
+      materials_used,
+      work_note
+    }).select().single();
+    if(error)throw error;
+
+    await logActivity('job',activeJobId,'daily_work_log_created',{
+      work_log_id:data?.id||null,
+      work_date,
+      labor_hours
+    });
+
+    // Keep the selected date so another log can be entered for the same day.
+    if($('dailyLaborHours'))$('dailyLaborHours').value='';
+    if($('dailyMaterialsUsed'))$('dailyMaterialsUsed').value='';
+    if($('dailyWorkNote'))$('dailyWorkNote').value='';
+    if($('dailyWorkEntryDetails'))$('dailyWorkEntryDetails').open=true;
+
+    await loadJobExtras();
+    msg($('jobModalMessage'),'Daily Work Log saved. You can enter another log for the same date.');
+  }catch(err){
+    msg($('jobModalMessage'),err.message||String(err),true);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Save Daily Work Log';
+  }
+};
 
 
 async function loadJobExtras(){
@@ -1220,6 +1287,7 @@ async function loadJobExtras(){
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <button type="button" class="btn btn-primary" data-save-work-log="${x.id}">Save Changes</button>
               <button type="button" class="btn btn-light" data-cancel-work-log="${x.id}">Cancel</button>
+              <button type="button" class="btn" data-delete-work-log="${x.id}" style="background:#b91c1c;color:white;border-color:#b91c1c">Delete Work Log</button>
             </div>
           </div>`:''}
         </details>`;
@@ -1243,6 +1311,32 @@ async function loadJobExtras(){
           if(!details)return;
           details.querySelector('.daily-log-edit')?.classList.add('hidden');
           details.querySelector('.daily-log-view')?.classList.remove('hidden');
+        });
+      });
+
+      $('dailyWorkLogsList').querySelectorAll('[data-delete-work-log]').forEach(btn=>{
+        btn.addEventListener('click',async()=>{
+          const details=btn.closest('[data-work-log]');
+          if(!details)return;
+          const id=btn.dataset.deleteWorkLog;
+          if(!confirm('Delete this Daily Work Log? This cannot be undone.'))return;
+
+          btn.disabled=true;
+          btn.textContent='Deleting...';
+
+          const {error:deleteError}=await sb.from('daily_work_logs')
+            .delete()
+            .eq('id',id);
+
+          if(deleteError){
+            btn.disabled=false;
+            btn.textContent='Delete Work Log';
+            return msg($('jobModalMessage'),deleteError.message||String(deleteError),true);
+          }
+
+          await logActivity('job',activeJobId,'daily_work_log_deleted',{work_log_id:id});
+          await loadJobExtras();
+          msg($('jobModalMessage'),'Daily Work Log deleted.');
         });
       });
 
@@ -1358,7 +1452,7 @@ async function loadJobExtras(){
           <div class="list-row" style="margin-top:6px">
             <small>${createdDate.toLocaleString()}</small>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-              <button type="button" class="btn btn-light" data-view-doc="${x.id}">View Document</button>
+              <button type="button" class="btn btn-light" data-view-doc="${x.id}">View PDF</button>
               ${profile?.role==='owner'?`<button type="button" class="btn btn-danger" data-delete-doc="${x.id}">Delete</button>`:''}
             </div>
           </div>
@@ -1439,24 +1533,21 @@ function setJobPicturesMessage(message,isError=false){
   el.classList.toggle('error',!!isError);
 }
 
-if($('chooseJobPictureFilesBtn')){
-  $('chooseJobPictureFilesBtn').addEventListener('click',e=>{
-    e.preventDefault();
-    e.stopPropagation();
-    $('jobPictureFiles')?.click();
+if($('jobPictureFiles')){
+  $('jobPictureFiles').addEventListener('change',()=>{
+    const files=[...($('jobPictureFiles').files||[])];
+    if(!files.length){
+      setJobPicturesMessage('Choose one or more pictures.');
+      return;
+    }
+    const totalMB=files.reduce((sum,f)=>sum+(Number(f.size)||0),0)/(1024*1024);
+    setJobPicturesMessage(`${files.length} picture${files.length===1?'':'s'} selected • ${totalMB.toFixed(1)} MB`);
   });
 }
 
-if($('chooseJobPermitFileBtn')){
-  $('chooseJobPermitFileBtn').addEventListener('click',e=>{
-    e.preventDefault();
-    e.stopPropagation();
-    $('jobPermitFile')?.click();
-  });
-}
-
-async function uploadSelectedJobPictures(){
-    const button=$('jobPictureFiles');
+if($('uploadJobPicturesBtn')){
+  $('uploadJobPicturesBtn').onclick=async()=>{
+    const button=$('uploadJobPicturesBtn');
 
     if(!profile?.company_id){
       setJobPicturesMessage('Your employee account is not connected to a company.',true);
@@ -1545,104 +1636,54 @@ async function uploadSelectedJobPictures(){
     }finally{
       button.disabled=false;
     }
+  };
 }
 
-if($('jobPictureFiles')){
-  $('jobPictureFiles').addEventListener('change',async()=>{
-    const files=[...($('jobPictureFiles').files||[])];
-    if(!files.length){
-      setJobPicturesMessage('Choose one or more pictures.');
-      return;
-    }
-    await uploadSelectedJobPictures();
-  });
-}
+$('uploadJobPermitBtn').onclick=async()=>{
+  if(profile?.role!=='owner'||!activeJobId)return;
+  const file=$('jobPermitFile').files?.[0];
+  if(!file)return msg($('jobModalMessage'),'Choose a document first.',true);
+  if(file.size>15728640)return msg($('jobModalMessage'),'Document must be 15 MB or smaller.',true);
 
-async function uploadSelectedJobDocument(){
-  const input=$('jobPermitFile');
-  const files=[...(input?.files||[])];
-
-  if(!profile?.company_id){
-    return msg($('jobModalMessage'),'Your account is not connected to a company.',true);
-  }
-  if(!activeJobId){
-    return msg($('jobModalMessage'),'Open and save the job before uploading documents.',true);
-  }
-  if(profile?.role!=='owner'){
-    return msg($('jobModalMessage'),'Only the Owner can upload Job Documents.',true);
-  }
-  if(!files.length){
-    return msg($('jobModalMessage'),'Choose one or more files first.',true);
-  }
-
-  const maxFileSize=15*1024*1024;
-  const tooLarge=files.find(file=>file.size>maxFileSize);
-  if(tooLarge){
-    return msg($('jobModalMessage'),`"${tooLarge.name||'Selected file'}" is over the 15 MB limit.`,true);
-  }
+  const allowed=['application/pdf','image/jpeg','image/png','image/heic','image/heif'];
+  if(file.type && !allowed.includes(file.type))return msg($('jobModalMessage'),'Use a PDF, JPG, PNG, HEIC, or HEIF file.',true);
 
   try{
-    let completed=0;
-    msg($('jobModalMessage'),`Uploading 0 of ${files.length} document${files.length===1?'':'s'}...`);
+    msg($('jobModalMessage'),'Uploading document...');
 
-    for(const file of files){
-      const unique=(window.crypto && typeof window.crypto.randomUUID==='function')
-        ? window.crypto.randomUUID()
-        : `${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
+    const unique=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36));
+    const path=`${profile.company_id}/${activeJobId}/${unique}_${safeStorageFileName(file.name)}`;
 
-      const safeName=safeStorageFileName(file.name||`document_${completed+1}`);
-      const path=`${profile.company_id}/${activeJobId}/documents/${unique}_${safeName}`;
+    const {error:uploadError}=await sb.storage.from('job-documents').upload(path,file,{
+      cacheControl:'3600',
+      upsert:false,
+      contentType:file.type||undefined
+    });
+    if(uploadError)throw uploadError;
 
-      const uploadOptions={
-        cacheControl:'3600',
-        upsert:false
-      };
-      if(file.type)uploadOptions.contentType=file.type;
+    const {error:metaError}=await sb.from('job_documents').insert({
+      company_id:profile.company_id,
+      job_id:activeJobId,
+      uploaded_by:session.user.id,
+      document_type:'job_permit', // backend-required value; UI remains generic Job Documents
+      file_name:file.name,
+      storage_path:path,
+      mime_type:file.type||null,
+      file_size:file.size
+    });
 
-      const {error:uploadError}=await sb.storage
-        .from('job-documents')
-        .upload(path,file,uploadOptions);
-
-      if(uploadError)throw uploadError;
-
-      const {error:metaError}=await sb.from('job_documents').insert({
-        company_id:profile.company_id,
-        job_id:activeJobId,
-        uploaded_by:session.user.id,
-        document_type:'job_permit',
-        file_name:file.name||safeName,
-        storage_path:path,
-        mime_type:file.type||null,
-        file_size:file.size||null
-      });
-
-      if(metaError){
-        await sb.storage.from('job-documents').remove([path]);
-        throw metaError;
-      }
-
-      completed++;
-      msg($('jobModalMessage'),`Uploading ${completed} of ${files.length} document${files.length===1?'':'s'}...`);
+    if(metaError){
+      await sb.storage.from('job-documents').remove([path]);
+      throw metaError;
     }
 
-    input.value='';
+    $('jobPermitFile').value='';
     await loadJobExtras();
-    if($('jobDocumentsDetails'))$('jobDocumentsDetails').open=true;
-    msg($('jobModalMessage'),`${files.length} document${files.length===1?'':'s'} uploaded successfully.`);
+    msg($('jobModalMessage'),'Document uploaded.');
   }catch(err){
-    msg($('jobModalMessage'),'Document upload failed: '+(err?.message||String(err)),true);
+    msg($('jobModalMessage'),err.message||String(err),true);
   }
-}
-
-if($('jobPermitFile')){
-  $('jobPermitFile').addEventListener('change',async()=>{
-    const files=[...($('jobPermitFile').files||[])];
-    if(!files.length){
-      return msg($('jobModalMessage'),'Choose one or more files.');
-    }
-    await uploadSelectedJobDocument();
-  });
-}
+};
 
 
 async function logActivity(entity_type,entity_id,action,details){
